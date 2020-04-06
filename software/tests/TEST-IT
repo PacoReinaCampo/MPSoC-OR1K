@@ -1,0 +1,4 @@
+export PATH=/opt/or1k-elf/bin:${PATH}
+
+make clean
+make

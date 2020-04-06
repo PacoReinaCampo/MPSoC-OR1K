@@ -1,0 +1,10 @@
+make clean
+make clean_elf-loader
+make clean_jtag_vpi
+
+rm -rf elf-loader.o
+rm -rf jtag_common.o
+rm -rf jtag_vpi.o
+rm -rf vpi_wrapper.o
+
+rm -rf *.log

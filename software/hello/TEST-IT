@@ -1,0 +1,4 @@
+export PATH=/opt/or1k-elf/bin:${PATH}
+
+rm -rf hello.elf
+or1k-elf-gcc hello.c -o hello.elf
