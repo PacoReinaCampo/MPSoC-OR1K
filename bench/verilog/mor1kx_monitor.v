@@ -17,7 +17,7 @@
 
 /* Configure these defines to point to the mor1kx instantiation */
 `ifndef MOR1KX_INST
-`define MOR1KX_INST dut.mor1kx0
+`define MOR1KX_INST dut.x_c[0].y_c[0].z_c[0].t_c[0].mor1kx0
 `endif
 
 /* The rest of these shouldn't need changing if the wrapper hooks have been 

@@ -1,4 +1,4 @@
-TARGET               := soc-or1k
+TARGET               := mpsoc-or1k
 VPI_MODULES          := elf-loader.vpi jtag_vpi.vpi
 TOPLEVEL             := or1k_testbench
 IVERILOG_OPTIONS     := -DSIM
@@ -201,8 +201,8 @@ clean_elf-loader:
 	$(RM) elf-loader.vpi
 
 jtag_vpi_LIBS := 
-jtag_vpi_INCS := -I../pu/dbg/software/or1k/
-jtag_vpi_SRCS := ../pu/dbg/software/or1k/jtag_common.c ../pu/dbg/software/or1k/jtag_vpi.c ../pu/dbg/bench/verilog/or1k/jtag_vpi/jtag_vpi.v
+jtag_vpi_INCS := -I../soc/pu/dbg/software/or1k/
+jtag_vpi_SRCS := ../soc/pu/dbg/software/or1k/jtag_common.c ../soc/pu/dbg/software/or1k/jtag_vpi.c ../soc/pu/dbg/bench/verilog/or1k/jtag_vpi/jtag_vpi.v
 
 jtag_vpi.vpi: $(jtag_vpi_SRCS)
 	iverilog-vpi --name=jtag_vpi $(jtag_vpi_LIBS) $(jtag_vpi_INCS) $?
