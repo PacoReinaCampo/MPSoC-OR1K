@@ -15,8 +15,12 @@ module or1k_mpsoc #(
     input  [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0] tdi_pad_i
   );
 
-  localparam wb_aw = 32;
-  localparam wb_dw = 32;
+  localparam WB_AW = 32;
+  localparam WB_DW = 32;
+
+  localparam CHANNELS = 7;
+
+  localparam NODES = X*Y*Z;
 
   genvar i,j,k,t;
 
@@ -40,6 +44,7 @@ module or1k_mpsoc #(
   wire        wb_s2m_or1k_d_ack [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_or1k_d_err [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_or1k_d_rty [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
   wire [31:0] wb_m2s_or1k_i_adr [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire [31:0] wb_m2s_or1k_i_dat [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire  [3:0] wb_m2s_or1k_i_sel [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
@@ -52,6 +57,7 @@ module or1k_mpsoc #(
   wire        wb_s2m_or1k_i_ack [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_or1k_i_err [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_or1k_i_rty [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
   wire [31:0] wb_m2s_dbg_adr    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire [31:0] wb_m2s_dbg_dat    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire  [3:0] wb_m2s_dbg_sel    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
@@ -64,6 +70,7 @@ module or1k_mpsoc #(
   wire        wb_s2m_dbg_ack    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_dbg_err    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_dbg_rty    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
   wire [31:0] wb_m2s_mem_adr    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire [31:0] wb_m2s_mem_dat    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire  [3:0] wb_m2s_mem_sel    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
@@ -76,6 +83,59 @@ module or1k_mpsoc #(
   wire        wb_s2m_mem_ack    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_mem_err    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire        wb_s2m_mem_rty    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  wire [31:0] wbm_m2s_dma_adr   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wbm_m2s_dma_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [3:0] wbm_m2s_dma_sel   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbm_m2s_dma_we    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbm_m2s_dma_cyc   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbm_m2s_dma_stb   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [2:0] wbm_m2s_dma_cti   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [1:0] wbm_m2s_dma_bte   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wbm_s2m_dma_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbm_s2m_dma_ack   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbm_s2m_dma_err   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbm_s2m_dma_rty   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  wire [31:0] wbs_m2s_dma_adr   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wbs_m2s_dma_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [3:0] wbs_m2s_dma_sel   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbs_m2s_dma_we    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbs_m2s_dma_cyc   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbs_m2s_dma_stb   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [2:0] wbs_m2s_dma_cti   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [1:0] wbs_m2s_dma_bte   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wbs_s2m_dma_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbs_s2m_dma_ack   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbs_s2m_dma_err   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wbs_s2m_dma_rty   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  wire [ 5:0] wb_m2s_mpi_adr    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wb_m2s_mpi_dat    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [ 3:0] wb_m2s_mpi_sel    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_m2s_mpi_we     [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_m2s_mpi_cyc    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_m2s_mpi_stb    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [2:0] wb_m2s_mpi_cti    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [1:0] wb_m2s_mpi_bte    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wb_s2m_mpi_dat    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_s2m_mpi_ack    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_s2m_mpi_err    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_s2m_mpi_rty    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  wire [31:0] wb_m2s_gpio_adr   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wb_m2s_gpio_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [3:0] wb_m2s_gpio_sel   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_m2s_gpio_we    [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_m2s_gpio_cyc   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_m2s_gpio_stb   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [2:0] wb_m2s_gpio_cti   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire  [1:0] wb_m2s_gpio_bte   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire [31:0] wb_s2m_gpio_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_s2m_gpio_ack   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_s2m_gpio_err   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+  wire        wb_s2m_gpio_rty   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
   wire [31:0] wb_m2s_uart_adr   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire  [7:0] wb_m2s_uart_dat   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
   wire  [3:0] wb_m2s_uart_sel   [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
@@ -97,6 +157,7 @@ module or1k_mpsoc #(
             mpsoc_msi_wb_interface wb_interface0 (
               .wb_clk_i        (wb_clk),
               .wb_rst_i        (wb_rst),
+
               .wb_or1k_d_adr_i (wb_m2s_or1k_d_adr [i][j][k][t] ),
               .wb_or1k_d_dat_i (wb_m2s_or1k_d_dat [i][j][k][t] ),
               .wb_or1k_d_sel_i (wb_m2s_or1k_d_sel [i][j][k][t] ),
@@ -109,6 +170,7 @@ module or1k_mpsoc #(
               .wb_or1k_d_ack_o (wb_s2m_or1k_d_ack [i][j][k][t] ),
               .wb_or1k_d_err_o (wb_s2m_or1k_d_err [i][j][k][t] ),
               .wb_or1k_d_rty_o (wb_s2m_or1k_d_rty [i][j][k][t] ),
+
               .wb_or1k_i_adr_i (wb_m2s_or1k_i_adr [i][j][k][t] ),
               .wb_or1k_i_dat_i (wb_m2s_or1k_i_dat [i][j][k][t] ),
               .wb_or1k_i_sel_i (wb_m2s_or1k_i_sel [i][j][k][t] ),
@@ -121,6 +183,7 @@ module or1k_mpsoc #(
               .wb_or1k_i_ack_o (wb_s2m_or1k_i_ack [i][j][k][t] ),
               .wb_or1k_i_err_o (wb_s2m_or1k_i_err [i][j][k][t] ),
               .wb_or1k_i_rty_o (wb_s2m_or1k_i_rty [i][j][k][t] ),
+
               .wb_dbg_adr_i    (wb_m2s_dbg_adr    [i][j][k][t] ),
               .wb_dbg_dat_i    (wb_m2s_dbg_dat    [i][j][k][t] ),
               .wb_dbg_sel_i    (wb_m2s_dbg_sel    [i][j][k][t] ),
@@ -133,6 +196,7 @@ module or1k_mpsoc #(
               .wb_dbg_ack_o    (wb_s2m_dbg_ack    [i][j][k][t] ),
               .wb_dbg_err_o    (wb_s2m_dbg_err    [i][j][k][t] ),
               .wb_dbg_rty_o    (wb_s2m_dbg_rty    [i][j][k][t] ),
+
               .wb_mem_adr_o    (wb_m2s_mem_adr    [i][j][k][t] ),
               .wb_mem_dat_o    (wb_m2s_mem_dat    [i][j][k][t] ),
               .wb_mem_sel_o    (wb_m2s_mem_sel    [i][j][k][t] ),
@@ -145,6 +209,59 @@ module or1k_mpsoc #(
               .wb_mem_ack_i    (wb_s2m_mem_ack    [i][j][k][t] ),
               .wb_mem_err_i    (wb_s2m_mem_err    [i][j][k][t] ),
               .wb_mem_rty_i    (wb_s2m_mem_rty    [i][j][k][t] ),
+
+              .wbm_dma_adr_i   (wbm_m2s_dma_adr   [i][j][k][t] ),
+              .wbm_dma_dat_i   (wbm_m2s_dma_dat   [i][j][k][t] ),
+              .wbm_dma_sel_i   (wbm_m2s_dma_sel   [i][j][k][t] ),
+              .wbm_dma_we_i    (wbm_m2s_dma_we    [i][j][k][t] ),
+              .wbm_dma_cyc_i   (wbm_m2s_dma_cyc   [i][j][k][t] ),
+              .wbm_dma_stb_i   (wbm_m2s_dma_stb   [i][j][k][t] ),
+              .wbm_dma_cti_i   (wbm_m2s_dma_cti   [i][j][k][t] ),
+              .wbm_dma_bte_i   (wbm_m2s_dma_bte   [i][j][k][t] ),
+              .wbm_dma_dat_o   (wbm_s2m_dma_dat   [i][j][k][t] ),
+              .wbm_dma_ack_o   (wbm_s2m_dma_ack   [i][j][k][t] ),
+              .wbm_dma_err_o   (wbm_s2m_dma_err   [i][j][k][t] ),
+              .wbm_dma_rty_o   (wbm_s2m_dma_rty   [i][j][k][t] ),
+
+              .wbs_dma_adr_o   (wbs_m2s_dma_adr   [i][j][k][t] ),
+              .wbs_dma_dat_o   (wbs_m2s_dma_dat   [i][j][k][t] ),
+              .wbs_dma_sel_o   (wbs_m2s_dma_sel   [i][j][k][t] ),
+              .wbs_dma_we_o    (wbs_m2s_dma_we    [i][j][k][t] ),
+              .wbs_dma_cyc_o   (wbs_m2s_dma_cyc   [i][j][k][t] ),
+              .wbs_dma_stb_o   (wbs_m2s_dma_stb   [i][j][k][t] ),
+              .wbs_dma_cti_o   (wbs_m2s_dma_cti   [i][j][k][t] ),
+              .wbs_dma_bte_o   (wbs_m2s_dma_bte   [i][j][k][t] ),
+              .wbs_dma_dat_i   (wbs_s2m_dma_dat   [i][j][k][t] ),
+              .wbs_dma_ack_i   (wbs_s2m_dma_ack   [i][j][k][t] ),
+              .wbs_dma_err_i   (wbs_s2m_dma_err   [i][j][k][t] ),
+              .wbs_dma_rty_i   (wbs_s2m_dma_rty   [i][j][k][t] ),
+
+              .wb_mpi_adr_o    (wb_m2s_mpi_adr    [i][j][k][t] ),
+              .wb_mpi_dat_o    (wb_m2s_mpi_dat    [i][j][k][t] ),
+              .wb_mpi_sel_o    (wb_m2s_mpi_sel    [i][j][k][t] ),
+              .wb_mpi_we_o     (wb_m2s_mpi_we     [i][j][k][t] ),
+              .wb_mpi_cyc_o    (wb_m2s_mpi_cyc    [i][j][k][t] ),
+              .wb_mpi_stb_o    (wb_m2s_mpi_stb    [i][j][k][t] ),
+              .wb_mpi_cti_o    (wb_m2s_mpi_cti    [i][j][k][t] ),
+              .wb_mpi_bte_o    (wb_m2s_mpi_bte    [i][j][k][t] ),
+              .wb_mpi_dat_i    (wb_s2m_mpi_dat    [i][j][k][t] ),
+              .wb_mpi_ack_i    (wb_s2m_mpi_ack    [i][j][k][t] ),
+              .wb_mpi_err_i    (wb_s2m_mpi_err    [i][j][k][t] ),
+              .wb_mpi_rty_i    (wb_s2m_mpi_rty    [i][j][k][t] ),
+
+              .wb_gpio_adr_o   (wb_m2s_gpio_adr   [i][j][k][t] ),
+              .wb_gpio_dat_o   (wb_m2s_gpio_dat   [i][j][k][t] ),
+              .wb_gpio_sel_o   (wb_m2s_gpio_sel   [i][j][k][t] ),
+              .wb_gpio_we_o    (wb_m2s_gpio_we    [i][j][k][t] ),
+              .wb_gpio_cyc_o   (wb_m2s_gpio_cyc   [i][j][k][t] ),
+              .wb_gpio_stb_o   (wb_m2s_gpio_stb   [i][j][k][t] ),
+              .wb_gpio_cti_o   (wb_m2s_gpio_cti   [i][j][k][t] ),
+              .wb_gpio_bte_o   (wb_m2s_gpio_bte   [i][j][k][t] ),
+              .wb_gpio_dat_i   (wb_s2m_gpio_dat   [i][j][k][t] ),
+              .wb_gpio_ack_i   (wb_s2m_gpio_ack   [i][j][k][t] ),
+              .wb_gpio_err_i   (wb_s2m_gpio_err   [i][j][k][t] ),
+              .wb_gpio_rty_i   (wb_s2m_gpio_rty   [i][j][k][t] ),
+
               .wb_uart_adr_o   (wb_m2s_uart_adr   [i][j][k][t] ),
               .wb_uart_dat_o   (wb_m2s_uart_dat   [i][j][k][t] ),
               .wb_uart_sel_o   (wb_m2s_uart_sel   [i][j][k][t] ),
@@ -243,6 +360,7 @@ module or1k_mpsoc #(
               // OR1K interface
               .cpu0_clk_i   (wb_clk),
               .cpu0_rst_o   (or1k_dbg_rst),
+
               .cpu0_addr_o  (or1k_dbg_adr_i   [i][j][k][t] ),
               .cpu0_data_o  (or1k_dbg_dat_i   [i][j][k][t] ),
               .cpu0_stb_o   (or1k_dbg_stb_i   [i][j][k][t] ),
@@ -302,25 +420,25 @@ module or1k_mpsoc #(
         for (k=0; k<Z; k=k+1) begin : z_c
           for (t=0; t<CORES_PER_TILE; t=t+1) begin : t_c
             mor1kx #(
-              .FEATURE_DEBUGUNIT ("ENABLED"),
-              .FEATURE_CMOV ("ENABLED"),
-              .FEATURE_INSTRUCTIONCACHE ("ENABLED"),
+              .FEATURE_DEBUGUNIT         ("ENABLED"),
+              .FEATURE_CMOV              ("ENABLED"),
+              .FEATURE_INSTRUCTIONCACHE  ("ENABLED"),
               .OPTION_ICACHE_BLOCK_WIDTH (5),
-              .OPTION_ICACHE_SET_WIDTH (8),
-              .OPTION_ICACHE_WAYS (2),
+              .OPTION_ICACHE_SET_WIDTH   (8),
+              .OPTION_ICACHE_WAYS        (2),
               .OPTION_ICACHE_LIMIT_WIDTH (32),
-              .FEATURE_IMMU ("ENABLED"),
-              .FEATURE_DATACACHE ("ENABLED"),
+              .FEATURE_IMMU              ("ENABLED"),
+              .FEATURE_DATACACHE         ("ENABLED"),
               .OPTION_DCACHE_BLOCK_WIDTH (5),
-              .OPTION_DCACHE_SET_WIDTH (8),
-              .OPTION_DCACHE_WAYS (2),
+              .OPTION_DCACHE_SET_WIDTH   (8),
+              .OPTION_DCACHE_WAYS        (2),
               .OPTION_DCACHE_LIMIT_WIDTH (31),
-              .FEATURE_DMMU ("ENABLED"),
-              .OPTION_RF_NUM_SHADOW_GPR (1),
-              .IBUS_WB_TYPE ("B3_REGISTERED_FEEDBACK"),
-              .DBUS_WB_TYPE ("B3_REGISTERED_FEEDBACK"),
-              .OPTION_CPU0 ("CAPPUCCINO"),
-              .OPTION_RESET_PC (32'h00000100)
+              .FEATURE_DMMU              ("ENABLED"),
+              .OPTION_RF_NUM_SHADOW_GPR  (1),
+              .IBUS_WB_TYPE              ("B3_REGISTERED_FEEDBACK"),
+              .DBUS_WB_TYPE              ("B3_REGISTERED_FEEDBACK"),
+              .OPTION_CPU0               ("CAPPUCCINO"),
+              .OPTION_RESET_PC           (32'h00000100)
             )
             mor1kx0 (
               .iwbm_adr_o   (wb_m2s_or1k_i_adr [i][j][k][t] ),
@@ -388,6 +506,7 @@ module or1k_mpsoc #(
               //Wishbone Master interface
               .wb_clk_i (wb_clk_i),
               .wb_rst_i (wb_rst_i),
+
               .wb_adr_i (wb_m2s_mem_adr [i][j][k][t][$clog2(MEM_SIZE)-3:0] ),
               .wb_dat_i (wb_m2s_mem_dat [i][j][k][t] ),
               .wb_sel_i (wb_m2s_mem_sel [i][j][k][t] ),
@@ -408,6 +527,171 @@ module or1k_mpsoc #(
     end
   endgenerate
 
+  ////////////////////////////////////////////////////////////////////////
+  //
+  // DMA Interface
+  //
+  ////////////////////////////////////////////////////////////////////////
+  wire [3:0] dma_irq [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  generate
+    for (i=0; i<X; i=i+1) begin
+      for (j=0; j<Y; j=j+1) begin
+        for (k=0; k<Z; k=k+1) begin
+          for (t=0; t<CORES_PER_TILE; t=t+1) begin
+            mpsoc_dma_wb_top #(
+              .ADDR_WIDTH (WB_AW),
+              .DATA_WIDTH (WB_DW)
+            )
+            dma_wb (
+              .clk (wb_clk),
+              .rst (wb_rst),
+
+              .noc_in_req_flit  (),
+              .noc_in_req_valid (),
+              .noc_in_req_ready (),
+
+              .noc_in_res_flit  (),
+              .noc_in_res_valid (),
+              .noc_in_res_ready (),
+
+              .noc_out_req_flit  (),
+              .noc_out_req_valid (),
+              .noc_out_req_ready (),
+
+              .noc_out_res_flit  (),
+              .noc_out_res_valid (),
+              .noc_out_res_ready (),
+
+              // Wishbone Master Interface
+              .wb_if_addr_i (wbm_m2s_dma_adr [i][j][k][t] ),
+              .wb_if_dat_i  (wbm_m2s_dma_dat [i][j][k][t] ),
+              .wb_if_cyc_i  (wbm_m2s_dma_cyc [i][j][k][t] ),
+              .wb_if_stb_i  (wbm_m2s_dma_stb [i][j][k][t] ),
+              .wb_if_we_i   (wbm_m2s_dma_we  [i][j][k][t] ),
+              .wb_if_dat_o  (wbm_s2m_dma_dat [i][j][k][t] ),
+              .wb_if_ack_o  (wbm_s2m_dma_ack [i][j][k][t] ),
+              .wb_if_err_o  (wbm_s2m_dma_err [i][j][k][t] ),
+              .wb_if_rty_o  (wbm_s2m_dma_rty [i][j][k][t] ),
+
+              // Wishbone Slave interface
+              .wb_adr_o (wbs_m2s_dma_adr [i][j][k][t] ),
+              .wb_dat_o (wbs_m2s_dma_dat [i][j][k][t] ),
+              .wb_cyc_o (wbs_m2s_dma_cyc [i][j][k][t] ),
+              .wb_stb_o (wbs_m2s_dma_stb [i][j][k][t] ),
+              .wb_sel_o (wbs_m2s_dma_sel [i][j][k][t] ),
+              .wb_we_o  (wbs_m2s_dma_we  [i][j][k][t] ),
+              .wb_cab_o (),
+              .wb_cti_o (wbs_m2s_dma_cti [i][j][k][t] ),
+              .wb_bte_o (wbs_m2s_dma_bte [i][j][k][t] ),
+              .wb_dat_i (wbs_s2m_dma_dat [i][j][k][t] ),
+              .wb_ack_i (wbs_s2m_dma_ack [i][j][k][t] ),
+
+              .irq (dma_irq [i][j][k][t] )
+            );
+          end
+        end
+      end
+    end
+  endgenerate
+
+  ////////////////////////////////////////////////////////////////////////
+  //
+  // MPI Interface
+  //
+  ////////////////////////////////////////////////////////////////////////
+  wire mpi_irq [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  generate
+    for (i=0; i<X; i=i+1) begin
+      for (j=0; j<Y; j=j+1) begin
+        for (k=0; k<Z; k=k+1) begin
+          for (t=0; t<CORES_PER_TILE; t=t+1) begin
+            mpsoc_mpi_wb #(
+              .NoC_DATA_WIDTH ( WB_DW )
+            )
+            mpi_wb (
+              .clk ( wb_clk ),
+              .rst ( wb_rst ),
+
+              // NoC interface
+              .noc_out_flit  (),
+              .noc_out_valid (),
+              .noc_out_ready (),
+
+              .noc_in_flit  (),
+              .noc_in_valid (),
+              .noc_in_ready (),
+
+              .wb_addr_i ( wb_m2s_mpi_adr [i][j][k][t] ),
+              .wb_we_i   ( wb_m2s_mpi_we  [i][j][k][t] ),
+              .wb_cyc_i  ( wb_m2s_mpi_cyc [i][j][k][t] ),
+              .wb_stb_i  ( wb_m2s_mpi_stb [i][j][k][t] ),
+              .wb_dat_i  ( wb_m2s_mpi_dat [i][j][k][t] ),
+              .wb_dat_o  ( wb_s2m_mpi_dat [i][j][k][t] ),
+              .wb_ack_o  ( wb_s2m_mpi_ack [i][j][k][t] ),
+
+              .irq ( mpi_irq [i][j][k][t] )
+            );
+          end
+        end
+      end
+    end
+  endgenerate
+
+  ////////////////////////////////////////////////////////////////////////
+  //
+  // GPIO Interface
+  //
+  ////////////////////////////////////////////////////////////////////////
+  wire gpio_irq [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
+
+  generate
+    for (i=0; i<X; i=i+1) begin
+      for (j=0; j<Y; j=j+1) begin
+        for (k=0; k<Z; k=k+1) begin
+          for (t=0; t<CORES_PER_TILE; t=t+1) begin
+            mpsoc_wb_gpio #(
+              .WB_DATA_WIDTH (WB_DW),
+              .WB_ADDR_WIDTH (WB_AW)
+            )
+            wb_gpio (
+              .wb_clk_i (wb_clk),  // Clock
+              .wb_rst_i (wb_rst),  // Reset
+
+              // WISHBONE Interface
+              .wb_cyc_i (wb_m2s_gpio_cyc [i][j][k][t] ),  // cycle valid input
+              .wb_adr_i (wb_m2s_gpio_adr [i][j][k][t] ),  // address bus inputs
+              .wb_dat_i (wb_m2s_gpio_dat [i][j][k][t] ),  // input data bus
+              .wb_sel_i (wb_m2s_gpio_sel [i][j][k][t] ),  // byte select inputs
+              .wb_we_i  (wb_m2s_gpio_we  [i][j][k][t] ),  // indicates write transfer
+              .wb_stb_i (wb_m2s_gpio_stb [i][j][k][t] ),  // strobe input
+              .wb_dat_o (wb_s2m_gpio_dat [i][j][k][t] ),  // output data bus
+              .wb_ack_o (wb_s2m_gpio_ack [i][j][k][t] ),  // normal termination
+              .wb_err_o (wb_s2m_gpio_err [i][j][k][t] ),  // termination w/ error
+
+              .wb_inta_o (gpio_irq [i][j][k][t] ),  // Interrupt request output
+
+              // Auxiliary Inputs Interface
+              .aux_i (),  // Auxiliary inputs
+
+              // External GPIO Interface
+              .ext_pad_i (),  // GPIO Inputs
+
+              .ext_pad_o   (),  // GPIO Outputs
+              .ext_padoe_o ()   // GPIO output drivers enables
+            ); 
+          end
+        end
+      end
+    end
+  endgenerate
+
+  ////////////////////////////////////////////////////////////////////////
+  //
+  // UART Interface
+  //
+  ////////////////////////////////////////////////////////////////////////
   wire uart_irq [X-1:0][Y-1:0][Z-1:0][CORES_PER_TILE-1:0];
 
   generate
@@ -418,10 +702,12 @@ module or1k_mpsoc #(
             mpsoc_wb_uart #(
               .DEBUG (0),
               .SIM   (1)
-            ) uart16550 (
+            )
+            wb_uart (
               //Wishbone Master interface
               .wb_clk_i  (wb_clk_i),
               .wb_rst_i  (wb_rst_i),
+
               .wb_adr_i  (wb_m2s_uart_adr [i][j][k][t][2:0] ),
               .wb_dat_i  (wb_m2s_uart_dat [i][j][k][t] ),
               .wb_sel_i  (4'h0),
@@ -459,16 +745,16 @@ module or1k_mpsoc #(
       for (j=0; j<Y; j=j+1) begin
         for (k=0; k<Z; k=k+1) begin
           for (t=0; t<CORES_PER_TILE; t=t+1) begin
-            assign or1k_irq[i][j][k][t][0] = 0;
-            assign or1k_irq[i][j][k][t][1] = 0;
-            assign or1k_irq[i][j][k][t][2] = uart_irq [i][j][k][t];
-            assign or1k_irq[i][j][k][t][3] = 0;
-            assign or1k_irq[i][j][k][t][4] = 0;
-            assign or1k_irq[i][j][k][t][5] = 0;
-            assign or1k_irq[i][j][k][t][6] = 0;
-            assign or1k_irq[i][j][k][t][7] = 0;
-            assign or1k_irq[i][j][k][t][8] = 0;
-            assign or1k_irq[i][j][k][t][9] = 0;
+            assign or1k_irq[i][j][k][t][00] = 0;
+            assign or1k_irq[i][j][k][t][01] = 0;
+            assign or1k_irq[i][j][k][t][02] = uart_irq [i][j][k][t];
+            assign or1k_irq[i][j][k][t][03] = gpio_irq [i][j][k][t];
+            assign or1k_irq[i][j][k][t][04] = mpi_irq  [i][j][k][t];
+            assign or1k_irq[i][j][k][t][05] = dma_irq  [i][j][k][t][0];
+            assign or1k_irq[i][j][k][t][06] = dma_irq  [i][j][k][t][1];
+            assign or1k_irq[i][j][k][t][07] = dma_irq  [i][j][k][t][2];
+            assign or1k_irq[i][j][k][t][08] = dma_irq  [i][j][k][t][3];
+            assign or1k_irq[i][j][k][t][09] = 0;
             assign or1k_irq[i][j][k][t][10] = 0;
             assign or1k_irq[i][j][k][t][11] = 0;
             assign or1k_irq[i][j][k][t][12] = 0;
@@ -495,4 +781,42 @@ module or1k_mpsoc #(
       end
     end
   endgenerate
+
+  ////////////////////////////////////////////////////////////////////////
+  //
+  // Network on Chip
+  //
+  ////////////////////////////////////////////////////////////////////////
+  wire [NODES-1:0][CHANNELS-1:0][WB_DW-1:0] mpsoc_noc_out_flit;
+  wire [NODES-1:0][CHANNELS-1:0]            mpsoc_noc_out_last;
+  wire [NODES-1:0][CHANNELS-1:0]            mpsoc_noc_out_valid;
+  wire [NODES-1:0][CHANNELS-1:0]            mpsoc_noc_out_ready;
+
+  wire [NODES-1:0][CHANNELS-1:0][WB_DW-1:0] mpsoc_noc_in_flit;
+  wire [NODES-1:0][CHANNELS-1:0]            mpsoc_noc_in_last;
+  wire [NODES-1:0][CHANNELS-1:0]            mpsoc_noc_in_valid;
+  wire [NODES-1:0][CHANNELS-1:0]            mpsoc_noc_in_ready;
+
+  mpsoc_noc_mesh #(
+    .FLIT_WIDTH       (WB_DW),
+    .CHANNELS         (CHANNELS),
+    .X                (X),
+    .Y                (Y),
+    .Z                (Z),
+    .NODES            (NODES)
+  )
+  mesh (
+    .rst       ( wb_rst_i ),
+    .clk       ( wb_clk_i ),
+
+    .in_flit   ( mpsoc_noc_in_flit  ),
+    .in_last   ( mpsoc_noc_in_last  ),
+    .in_valid  ( mpsoc_noc_in_valid ),
+    .in_ready  ( mpsoc_noc_in_ready ),
+
+    .out_flit  ( mpsoc_noc_out_flit  ),
+    .out_last  ( mpsoc_noc_out_last  ),
+    .out_valid ( mpsoc_noc_out_valid ),
+    .out_ready ( mpsoc_noc_out_ready )
+  );
 endmodule

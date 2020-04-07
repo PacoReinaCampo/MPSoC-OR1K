@@ -51,7 +51,7 @@ HELLO                ?= +elf_load=../software/hello/hello.elf
 all: $(VPI_MODULES) $(TARGET)
 
 $(TARGET):
-	iverilog -s$(TOPLEVEL) -c $(TARGET).scr -o $@ $(IVERILOG_OPTIONS)
+	iverilog -g2012 -s$(TOPLEVEL) -c $(TARGET).scr -o $@ $(IVERILOG_OPTIONS)
 
 run-alignillegalinsn: $(VPI_MODULES) $(TARGET)
 	vvp -n -M. -l or1k-alignillegalinsn.log $(patsubst %.vpi,-m%,$(VPI_MODULES)) $(TARGET) $(ALIGNILLEGALINSN)
