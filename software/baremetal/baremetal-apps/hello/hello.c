@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 by the author(s)
+/* Copyright (c) 2013-2015 by the author(s)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,35 +20,27 @@
  *
  * =============================================================================
  *
- * GLIP communication channel interface
+ * Simple hello world example.
  *
  * Author(s):
- *   Stefan Wallentowitz <stefan@wallentowitz.de>
+ *   Stefan Wallentowitz <stefan.wallentowitz@tum.de>
  */
 
-interface glip_channel #(
-  parameter WIDTH=16
-)
-  (
-    input clk
-  );
+#include <stdio.h>
+#include <optimsoc-baremetal.h>
 
-  logic [WIDTH-1:0] data;
-  logic             valid;
-  logic             ready;
+int main() {
+  optimsoc_init(0);
 
-  modport master(output data, output valid, input ready);
+  printf("Hello QueenField! Core %d of %d in tile %d, my absolute core id is: %d\n",
+         optimsoc_get_relcoreid()+1, optimsoc_get_tilenumcores(),
+         optimsoc_get_tileid()+1, optimsoc_get_abscoreid()+1);
 
-  modport slave(input data, input valid, output ready);
+  printf("There are %d compute tiles:\n", optimsoc_get_numct());
 
-  // a helper function to ease the assembly of interface signals
-  function logic assemble (
-    input logic [WIDTH-1:0] m_data,
-    input logic             m_valid
-  );
+  for (int r = 0; r < optimsoc_get_numct(); ++r) {
+	  printf(" rank %d is tile %d\n", r+1, optimsoc_get_ranktile(r)+1);
+  }
 
-    data  = m_data;
-    valid = m_valid;
-    return ready;
-  endfunction
-endinterface
+  return 0;
+}
