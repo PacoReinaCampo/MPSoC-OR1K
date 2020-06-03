@@ -303,14 +303,14 @@ module or1k_tile #(
 
   generate
     for (c = 0; c < CONFIG.CORES_PER_TILE; c = c + 1) begin : gen_cores
-      mor1kx_module #(
+      or1k_module #(
         .ID(c),
         .NUMCORES             (CONFIG.CORES_PER_TILE),
         .FEATURE_FPU          (MOR1KX_FEATURE_FPU),
         .FEATURE_PERFCOUNTERS (MOR1KX_FEATURE_PERFCOUNTERS),
         .FEATURE_DEBUGUNIT    (MOR1KX_FEATURE_DEBUGUNIT)
       )
-      u_core (
+      u_module (
         .clk_i                 (clk),
         .bus_clk_i             (clk),
         .rst_i                 (rst_cpu),
