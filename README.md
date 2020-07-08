@@ -352,6 +352,19 @@ in according with `rounding mode` bits of FPCSR.*
 
 ## 2.4. OPENRISC ARCHITECTURE
 
+OpenRISC is architecture for a family of free, open source RISC processor cores. As architecture, OpenRISC 1000 allows for a spectrum of chip and system implementations at a variety of price/performance points for a range of applications. It is a 32/64-bit load and store RISC architecture designed with emphasis on performance, simplicity, low power requirements, scalability and versatility. OpenRISC 1000 architecture targets medium and high performance networking, embedded, automotive and portable computer environments.
+
+### 2.4.1. Library
+
+Library
+type:
+```
+sudo apt update
+sudo apt upgrade
+
+sudo apt install libelf-dev
+```
+
 ### 2.4.1. Library
 
 ### 2.4.2. Toolchain
