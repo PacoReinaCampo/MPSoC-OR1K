@@ -1,4 +1,0 @@
-# OpTiMSoC trace_monitor stdout file
-# [TIME, CORE] MESSAGE
-[               39766, 0] Wait for 6 messages
-[               54818, 0] Received all messages. Hello World!
