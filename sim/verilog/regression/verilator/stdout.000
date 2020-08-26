@@ -1,0 +1,4 @@
+# OpTiMSoC trace_monitor stdout file
+# [TIME, CORE] MESSAGE
+[               72128, 0] Received from 1
+[               78870, 0] Received from 2
