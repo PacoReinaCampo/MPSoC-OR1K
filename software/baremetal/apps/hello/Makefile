@@ -1,4 +1,3 @@
-#!/bin/sh
 ###################################################################################
 ##                                            __ _      _     _                  ##
 ##                                           / _(_)    | |   | |                 ##
@@ -42,5 +41,7 @@
 ##                                                                               ##
 ###################################################################################
 
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-exec pkg-config --define-variable=OPTIMSOC=$OPTIMSOC $@
+PROGRAM=hello
+
+BUILDSCRIPTS=$(shell pkg-config --variable=buildscriptdir optimsoc-baremetal)
+include $(BUILDSCRIPTS)/Makefile.inc
