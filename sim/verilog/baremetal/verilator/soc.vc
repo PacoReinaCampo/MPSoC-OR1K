@@ -120,10 +120,10 @@
 ../../../../soc/rtl/verilog/soc/spram/wb_sram_sp.sv
 ../../../../soc/rtl/verilog/soc/spram/wb2sram.sv
 ../../../../soc/rtl/verilog/soc/or1k_tile.sv
-../../../../bench/verilog/glip/glip_tcp_toplevel.sv
-../../../../bench/verilog/monitor/r3_checker.sv
-../../../../bench/verilog/monitor/trace_monitor.sv
-../../../../bench/verilog/or1k_tile_testbench.sv
+../../../../soc/bench/verilog/glip/glip_tcp_toplevel.sv
+../../../../soc/bench/verilog/monitor/r3_checker.sv
+../../../../soc/bench/verilog/monitor/trace_monitor.sv
+../../../../soc/bench/verilog/or1k_tile_testbench.sv
 --top-module or1k_tile_testbench
 --exe
 ../../../../soc/bench/cpp/glip/glip_tcp_dpi.cpp
