@@ -62,9 +62,30 @@ sudo apt upgrade
 
 ## 2.1. CORE-OR1K
 
-### 2.1.1. Definition
+### 2.1.1. Functionality
 
-### 2.1.2. RISC Pipeline
+#### 2.1.1.1. Organization
+
+The CORE-OR1K is based on the Harvard architecture, which is a computer architecture with separate storage and signal pathways for instructions and data. The implementation is heavily modular, with each particular functional block of the design being contained within its own HDL module or modules. The OR1K implementation was developed in order to provide a better platform for processor component development than previous implementations.
+
+| Core                      | Module description                                         |
+| ------------------------- | ---------------------------------------------------------- |
+| `or1k_core`               | Top-level, instantiatng bus interfaces, data cache and CPU |
+| `...or1k_dcache`          | Data cache implementation                                  |
+| `...or1k_bus_if_xx`       | Bus interface, depending on desired bus standard           |
+| `...or1k_cpu`             | Pipeline implementation wrapper                            |
+| `.....or1k_cpu_xx`        | Pipeline implementation, depending on configuration        |
+| `.......or1k_fetch_xx`    | Pipeline-implementation-dependent fetch stage              |
+| `.......or1k_decode`      | Generic decode stage                                       |
+| `.......or1k_execute_alu` | Generic ALU for execute stage                              |
+| `.......or1k_lsu_xx`      | Pipeline-implementation-dependent load/store unit          |
+| `.......or1k_wb_mux_xx`   | Pipeline-implementation-dependent writeback stage mux      |
+| `.......or1k_rf_xx`       | Pipeline-implementation-dependent register file            |
+| `.......or1k_ctrl_xx`     | Pipeline-implementation-dependent control stage            |
+
+In a Harvard architecture, there is no need to make the two memories share characteristics. In particular, the word width, timing, implementation technology, and memory address structure can differ. In some systems, instructions for pre-programmed tasks can be stored in read-only memory while data memory generally requires read-write memory. In some systems, there is much more instruction memory than data memory so instruction addresses are wider than data addresses.
+
+#### 2.1.1.2. Pipeline
 
 In computer science, instruction pipelining is a technique for implementing instruction-level parallelism within a PU. Pipelining attempts to keep every part of the processor busy with some instruction by dividing incoming instructions into a series of sequential steps performed by different PUs with different parts of instructions processed in parallel. It allows faster PU throughput than would otherwise be possible at a given clock rate.
 
@@ -99,30 +120,11 @@ In computer science, instruction pipelining is a technique for implementing inst
 
 - WB – WriteBack Unit : Write the result into the register file, whether it comes from the memory system or from the ALU.
 
-### 2.1.3. CORE-OR1K Organization
+### 2.1.2. Interface
 
-The CORE-OR1K is based on the Harvard architecture, which is a computer architecture with separate storage and signal pathways for instructions and data. The implementation is heavily modular, with each particular functional block of the design being contained within its own HDL module or modules. The OR1K implementation was developed in order to provide a better platform for processor component development than previous implementations.
+#### 2.1.2.1. Constants
 
-| Core                      | Module description                                         |
-| ------------------------- | ---------------------------------------------------------- |
-| `or1k_core`               | Top-level, instantiatng bus interfaces, data cache and CPU |
-| `...or1k_dcache`          | Data cache implementation                                  |
-| `...or1k_bus_if_xx`       | Bus interface, depending on desired bus standard           |
-| `...or1k_cpu`             | Pipeline implementation wrapper                            |
-| `.....or1k_cpu_xx`        | Pipeline implementation, depending on configuration        |
-| `.......or1k_fetch_xx`    | Pipeline-implementation-dependent fetch stage              |
-| `.......or1k_decode`      | Generic decode stage                                       |
-| `.......or1k_execute_alu` | Generic ALU for execute stage                              |
-| `.......or1k_lsu_xx`      | Pipeline-implementation-dependent load/store unit          |
-| `.......or1k_wb_mux_xx`   | Pipeline-implementation-dependent writeback stage mux      |
-| `.......or1k_rf_xx`       | Pipeline-implementation-dependent register file            |
-| `.......or1k_ctrl_xx`     | Pipeline-implementation-dependent control stage            |
-
-In a Harvard architecture, there is no need to make the two memories share characteristics. In particular, the word width, timing, implementation technology, and memory address structure can differ. In some systems, instructions for pre-programmed tasks can be stored in read-only memory while data memory generally requires read-write memory. In some systems, there is much more instruction memory than data memory so instruction addresses are wider than data addresses.
-
-### 2.1.4. Parameters
-
-#### 2.1.4.1. Basic Parameters
+##### 2.1.1.2.1. Basic Constants
 
 | Parameter            | Description                 | Default      | Values       |
 | -------------------- | --------------------------- |:------------:|:------------:|
@@ -130,7 +132,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | OPTION_CPU0          | CPU pipeline core           | `CAPPUCCINO` | `CAPPUCCINO` |
 | OPTION_RESET_PC      | Program Counter upon reset  | `0x100`      | N            |
 
-#### 2.1.4.2. Caching Parameters
+##### 2.1.1.2.2. Caching Constants
 
 | Parameter                 | Description                       | Default | Values    |
 | ------------------------- | --------------------------------- |:-------:|:---------:|
@@ -146,7 +148,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | OPTION_ICACHE_WAYS        | Number of blocks per set          | 2       | `n`       |
 | OPTION_ICACHE_LIMIT_WIDTH | Maximum address width             | 32      | `n`       |
 
-#### 2.1.4.3. Memory Management Unit (MMU) Parameters
+##### 2.1.1.2.3. Memory Management Unit (MMU) Constants
 
 | Parameter                  | Description                    | Default | Values    |
 | -------------------------- | ------------------------------ |:-------:|:---------:|
@@ -159,7 +161,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | OPTION_IMMU_SET_WIDTH      | Set address width              | 6       | `n`       |
 | OPTION_IMMU_WAYS           | Number of ways per set         | 1       | `n`       |
 
-#### 2.1.4.4. System Bus Parameters
+##### 2.1.1.2.4. System Bus Constants
 
 | Parameter                       | Description                        | Default            |
 | ------------------------------- | ---------------------------------- |:------------------:|
@@ -169,7 +171,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | IBUS_WB_TYPE                    | Instruction bus interface          | `B3_READ_BURSTING` |
 | DBUS_WB_TYPE                    | Data bus interface type option     | `CLASSIC`          |
 
-#### 2.1.4.5. Hardware Unit Configuration Parameters
+##### 2.1.1.2.5. Hardware Unit Configuration Constants
 
 | Parameter                | Description                              | Default   |
 | ------------------------ | ---------------------------------------- |:---------:|
@@ -191,7 +193,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | OPTION_FTOI_ROUNDING     | Rounding behavior for `lf.ftoi.s`        | `CPP`     |
 | FEATURE_BRANCH_PREDICTOR | Branch predictor implementation          | `SIMPLE`  |
 
-#### 2.1.4.6. Exception Handling Options
+##### 2.1.1.2.6. Exception Handling Options
 
 | Parameter        | Description                                     | Default   |
 | ---------------- | ----------------------------------------------- |:---------:|
@@ -199,7 +201,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | FEATURE_RANGE    | Enable checking and raising range exceptions    | `ENABLED` |
 | FEATURE_OVERFLOW | Enable checking and raising overflow exceptions | `ENABLED` |
 
-#### 2.1.4.7. ALU Configuration Options
+##### 2.1.1.2.7. ALU Configuration Options
 
 | Parameter          | Description                                | Default      |
 | ------------------ | ------------------------------------------ |:------------:|
@@ -208,7 +210,7 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | OPTION_SHIFTER     | Specify the shifter implementation         | `BARREL`     |
 | FEATURE_CARRY_FLAG | Enable checking and setting the carry flag | `ENABLED`    |
 
-#### 2.1.4.8. Instruction Enabling Options
+##### 2.1.1.2.8. Instruction Enabling Options
 
 | Parameter       | Description                                     | Default   |
 | --------------- | ----------------------------------------------- |:---------:|
@@ -231,21 +233,37 @@ In a Harvard architecture, there is no need to make the two memories share chara
 | FEATURE_CUST7   | `l.cust*` custom instruction                    | `NONE`    |
 | FEATURE_CUST8   | `l.cust*` custom instruction                    | `NONE`    |
 
-### 2.1.5. Instruction Inputs/Outputs Bus
+#### 2.1.2.2. Signals
 
-### 2.1.6. Data Inputs/Outputs Bus
+##### 2.1.2.2.1. Instruction Inputs/Outputs Bus
+
+##### 2.1.2.2.2. Data Inputs/Outputs Bus
+
+### 2.1.3. Registers
+
+### 2.1.4. Interruptions
 
 ## 2.2. PU-OR1K
 
-### 2.2.1. Definition
+### 2.2.1. Processing Unit
 
 The OpenRISC implementation has a 32/64 bit Microarchitecture, 5 stages data pipeline and an Instruction Set Architecture based on Reduced Instruction Set Computer. Compatible with Wishbone Bus. Only For Researching.
+
+| Processing Unit                 | Module description                          |
+| ------------------------------- | ------------------------------------------- |
+| `or1k_pu`                       | Processing Unit                             |
+| `...or1k_core`                  | Core                                        |
+| `...mpsoc_msi_wb_interface`     | Master Slave Interface                      |
+| `...tap_top`                    | Test Access Port                            |
+| `...adbg_top`                   | Debugger on Chip                            |
+| `...mpsoc_wb_spram`             | Single-Port RAM for Instruction & Data      |
+| `...mpsoc_wb_uart`              | Universal Asynchronous Receiver-Transmitter |
 
 A PU cache is a hardware cache used by the PU to reduce the average cost (time or energy) to access instruction/data from the main memory. A cache is a smaller, faster memory, closer to a core, which stores copies of the data from frequently used main memory locations. Most CPUs have different independent caches, including instruction and data caches.
 
 ### 2.2.2. Instruction Cache
 
-#### 2.2.2.1. Instruction Organization
+#### 2.2.2.1. Functionality
 
 | Instruction Memory             | Module description                 |
 | ------------------------------ | ---------------------------------- |
@@ -264,9 +282,11 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `...riscv_mux`                 | Bus-Interface-Unit Mux             |
 | `riscv_biu`                    | Bus Interface Unit                 |
 
-#### 2.2.2.2. Instruction INPUTS/OUTPUTS AMBA4 AXI-Lite Bus
+#### 2.2.2.2. Interface
 
-##### 2.2.2.2.1. Signals of the Read and Write Address channels
+##### 2.2.2.2.1. Instruction INPUTS/OUTPUTS AMBA4 AXI-Lite Bus
+
+###### 2.2.2.2.1.1. Signals of the Read and Write Address channels
 
 | Write Port | Read Port  |  Size            | Direction | Description                              |
 | ---------- | ---------- |:----------------:|:---------:| ---------------------------------------- |
@@ -284,7 +304,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `AWVALID`  | `ARVALID`  |         1        | Output    | xVALID handshake signal                  |
 | `AWREADY`  | `ARREADY`  |         1        | Input     | xREADY handshake signal                  |
 
-##### 2.2.2.2.2. Signals of the Read and Write Data channels
+###### 2.2.2.2.1.2. Signals of the Read and Write Data channels
 
 | Write Port | Read Port  |  Size            | Direction | Description                              |
 | ---------- | ---------- |:----------------:|:---------:| ---------------------------------------- |
@@ -297,7 +317,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `WVALID`   | `RVALID`   |         1        | Output    | xVALID handshake signal                  |
 | `WREADY`   | `RREADY`   |         1        | Input     | xREADY handshake signal                  |
 
-##### 2.2.2.2.3. Signals of the Write Response channel
+###### 2.2.2.2.1.3. Signals of the Write Response channel
 
 | Write Port | Size             | Direction | Description                                     |
 | ---------- |:----------------:|:---------:| ----------------------------------------------- |
@@ -307,7 +327,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `BVALID`   |         1        |   Input   | xVALID handshake signal                         |
 | `BREADY`   |         1        |   Output  | xREADY handshake signal                         |
 
-#### 2.2.2.3. Instruction INPUTS/OUTPUTS AMBA3 AHB-Lite Bus
+##### 2.2.2.2.2. Instruction INPUTS/OUTPUTS AMBA3 AHB-Lite Bus
 
 | Port         |  Size  | Direction | Description                           |
 | ------------ |:------:|:---------:| ------------------------------------- |
@@ -327,7 +347,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `IHREADY`    |    1   |   Input   | Instruction Slave Ready Indicator     |
 | `IHRESP`     |    1   |   Input   | Instruction Transfer Response         |
 
-#### 2.2.2.4. Instruction INPUTS/OUTPUTS Wishbone Bus
+##### 2.2.2.2.3. Instruction INPUTS/OUTPUTS Wishbone Bus
 
 | Port    |  Size  | Direction | Description                     |
 | ------- |:------:|:---------:| ------------------------------- |
@@ -347,7 +367,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 
 ### 2.2.3. Data Cache
 
-#### 2.2.3.1. Data Organization
+#### 2.2.3.1. Functionality
 
 | Data Memory                    | Module description                 |
 | ------------------------------ | ---------------------------------- |
@@ -365,9 +385,11 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `...riscv_mux`                 | Bus-Interface-Unit Mux             |
 | `riscv_biu`                    | Bus Interface Unit                 |
 
-#### 2.2.3.2. Data INPUTS/OUTPUTS AMBA4 AXI-Lite Bus
+#### 2.2.3.2. Interface
 
-##### 2.2.3.2.1. Signals of the Read and Write Address channels
+##### 2.2.3.2.1. Data INPUTS/OUTPUTS AMBA4 AXI-Lite Bus
+
+###### 2.2.3.2.1.1. Signals of the Read and Write Address channels
 
 | Write Port | Read Port  |  Size            | Direction | Description                              |
 | ---------- | ---------- |:----------------:|:---------:| ---------------------------------------- |
@@ -385,7 +407,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `AWVALID`  | `ARVALID`  |         1        | Output    | xVALID handshake signal                  |
 | `AWREADY`  | `ARREADY`  |         1        | Input     | xREADY handshake signal                  |
 
-##### 2.2.3.2.2. Signals of the Read and Write Data channels
+###### 2.2.3.2.1.2. Signals of the Read and Write Data channels
 
 | Write Port | Read Port  |  Size            | Direction | Description                              |
 | ---------- | ---------- |:----------------:|:---------:| ---------------------------------------- |
@@ -398,7 +420,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `WVALID`   | `RVALID`   |        1         | Output    | xVALID handshake signal                  |
 | `WREADY`   | `RREADY`   |        1         | Input     | xREADY handshake signal                  |
 
-##### 2.2.3.2.3. Signals of the Write Response channel
+###### 2.2.3.2.1.3. Signals of the Write Response channel
 
 | Write Port | Size             | Direction | Description                                     |
 | ---------- |:----------------:|:---------:| ----------------------------------------------- |
@@ -408,7 +430,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `BVALID`   |         1        |   Input   | xVALID handshake signal                         |
 | `BREADY`   |         1        |   Output  | xREADY handshake signal                         |
 
-#### 2.2.3.3. Data INPUTS/OUTPUTS AMBA3 AHB-Lite Bus
+#### 2.2.3.2.2. Data INPUTS/OUTPUTS AMBA3 AHB-Lite Bus
 
 | Port         |  Size  | Direction | Description                    |
 | ------------ |:------:|:---------:| ------------------------------ |
@@ -428,7 +450,7 @@ A PU cache is a hardware cache used by the PU to reduce the average cost (time o
 | `DHREADY`    |    1   |   Input   | Data Slave Ready Indicator     |
 | `DHRESP`     |    1   |   Input   | Data Transfer Response         |
 
-#### 2.2.3.4. Data INPUTS/OUTPUTS Wishbone Bus
+#### 2.2.3.2.3. Data INPUTS/OUTPUTS Wishbone Bus
 
 | Port    |  Size  | Direction | Description                     |
 | ------- |:------:|:---------:| ------------------------------- |
