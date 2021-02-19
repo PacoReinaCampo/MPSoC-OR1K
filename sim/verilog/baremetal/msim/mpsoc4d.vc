@@ -3,6 +3,7 @@
 +incdir+../../../../bench/cpp/verilator/inc
 +incdir+../../../../bench/cpp/glip
 +incdir+../../../../soc/dma/rtl/verilog/wb/pkg
+
 ../../../../rtl/verilog/pkg/arbiter/arb_rr.sv
 ../../../../rtl/verilog/pkg/functions/optimsoc_functions.sv
 ../../../../rtl/verilog/pkg/config/optimsoc_config.sv
@@ -115,7 +116,4 @@
 ../../../../soc/rtl/verilog/soc/spram/wb2sram.sv
 ../../../../soc/rtl/verilog/soc/or1k_tile.sv
 
-../../../../bench/verilog/glip/glip_tcp_toplevel.sv
-../../../../bench/verilog/monitor/r3_checker.sv
-../../../../bench/verilog/monitor/trace_monitor.sv
-../../../../bench/verilog/or1k_mpsoc4d_testbench.sv
+../../../../bench/verilog/mpsoc4d_or1k_testbench.sv
