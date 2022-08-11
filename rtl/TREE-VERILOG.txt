@@ -1,0 +1,16 @@
+verilog
+├── mpsoc
+│   ├── or1k_mpsoc2d.sv
+│   ├── or1k_mpsoc3d.sv
+│   └── or1k_mpsoc4d.sv
+└── pkg
+    ├── arbiter
+    │   └── arb_rr.sv
+    ├── config
+    │   └── optimsoc_config.sv
+    ├── constants
+    │   └── optimsoc_constants.sv
+    └── functions
+        └── optimsoc_functions.sv
+
+6 directories, 7 files
