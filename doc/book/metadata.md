@@ -1,6 +1,6 @@
 ---
 title: 'MPSoC-OR1K'
-subtitle: 'QueenField ![](../../mpsoc-or1k.svg){width=17cm}'
+subtitle: 'QueenField ![](../../icon.jpg)'
 
 author: Paco Reina Campo
 

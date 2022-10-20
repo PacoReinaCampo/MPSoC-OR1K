@@ -1,6 +1,6 @@
 # MPSoC-OR1K
 ## QueenField
 
-![QueenField](../master/icon.jpg)
+![QueenField](../master/mpsoc-or1k.svg)
 
 **Multi-Processor System on Chip with ISA OR1K**
