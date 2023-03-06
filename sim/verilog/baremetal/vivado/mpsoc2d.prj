@@ -154,4 +154,4 @@ sv work ../../../../soc/rtl/verilog/soc/spram/wb_sram_sp.sv
 sv work ../../../../soc/rtl/verilog/soc/spram/wb2sram.sv
 sv work ../../../../soc/rtl/verilog/soc/or1k_tile.sv
 
-sv work ../../../../bench/verilog/mpsoc2d_or1k_testbench.sv
+sv work ../../../../bench/verilog/main/mpsoc2d_or1k_testbench.sv

@@ -160,4 +160,4 @@
 ../../../../soc/rtl/verilog/soc/spram/wb2sram.sv
 ../../../../soc/rtl/verilog/soc/or1k_tile.sv
 
-../../../../bench/verilog/mpsoc3d_or1k_testbench.sv
+../../../../bench/verilog/main/mpsoc3d_or1k_testbench.sv

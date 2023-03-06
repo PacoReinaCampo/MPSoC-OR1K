@@ -173,7 +173,7 @@
 --exe
 ../../../../bench/cpp/glip/glip_tcp_dpi.cpp
 ../../../../bench/cpp/glip/GlipTcp.cpp
-../../../../bench/cpp/or1k_mpsoc4d_testbench.cpp
+../../../../bench/cpp/main/or1k_mpsoc4d_testbench.cpp
 ../../../../bench/cpp/verilator/src/OptionsParser.cpp
 ../../../../bench/cpp/verilator/src/VerilatedControl.cpp
 -GNUM_CORES=2
