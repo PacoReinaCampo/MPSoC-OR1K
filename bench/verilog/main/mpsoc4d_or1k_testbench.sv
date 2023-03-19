@@ -52,45 +52,45 @@ module mpsoc4d_or1k_testbench;
   // Constans
   //
 
-  parameter USE_DEBUG        = 0;
-  parameter ENABLE_VCHANNELS = 1*1;
+  parameter USE_DEBUG = 0;
+  parameter ENABLE_VCHANNELS = 1 * 1;
 
-  parameter integer NUM_CORES = 1*1; // bug in verilator would give a warning
-  parameter integer LMEM_SIZE = 32*1024*1024;
+  parameter integer NUM_CORES = 1 * 1;  // bug in verilator would give a warning
+  parameter integer LMEM_SIZE = 32 * 1024 * 1024;
 
-  localparam base_config_t
-  BASE_CONFIG = '{NUMTILES: 16,
-                  NUMCTS: 16,
-                  CTLIST: {{60{16'hx}}, 16'h0, 16'h1, 16'h2, 16'h3},
-                  CORES_PER_TILE: NUM_CORES,
-                  GMEM_SIZE: 0,
-                  GMEM_TILE: 'x,
-                  NOC_ENABLE_VCHANNELS: ENABLE_VCHANNELS,
-                  LMEM_SIZE: LMEM_SIZE,
-                  LMEM_STYLE: PLAIN,
-                  ENABLE_BOOTROM: 0,
-                  BOOTROM_SIZE: 0,
-                  ENABLE_DM: 1,
-                  DM_BASE: 32'h0,
-                  DM_SIZE: LMEM_SIZE,
-                  ENABLE_PGAS: 0,
-                  PGAS_BASE: 0,
-                  PGAS_SIZE: 0,
-                  CORE_ENABLE_FPU: 0,
-                  CORE_ENABLE_PERFCOUNTERS: 0,
-                  NA_ENABLE_MPSIMPLE: 1,
-                  NA_ENABLE_DMA: 1,
-                  NA_DMA_GENIRQ: 1,
-                  NA_DMA_ENTRIES: 4,
-                  USE_DEBUG: 1'(USE_DEBUG),
-                  DEBUG_STM: 1,
-                  DEBUG_CTM: 1,
-                  DEBUG_DEM_UART: 0,
-                  DEBUG_SUBNET_BITS: 6,
-                  DEBUG_LOCAL_SUBNET: 0,
-                  DEBUG_ROUTER_BUFFER_SIZE: 4,
-                  DEBUG_MAX_PKT_LEN: 12
-                  };
+  localparam base_config_t BASE_CONFIG = '{
+    NUMTILES: 16,
+    NUMCTS: 16,
+    CTLIST: {{60{16'hx}}, 16'h0, 16'h1, 16'h2, 16'h3},
+    CORES_PER_TILE: NUM_CORES,
+    GMEM_SIZE: 0,
+    GMEM_TILE: 'x,
+    NOC_ENABLE_VCHANNELS: ENABLE_VCHANNELS,
+    LMEM_SIZE: LMEM_SIZE,
+    LMEM_STYLE: PLAIN,
+    ENABLE_BOOTROM: 0,
+    BOOTROM_SIZE: 0,
+    ENABLE_DM: 1,
+    DM_BASE: 32'h0,
+    DM_SIZE: LMEM_SIZE,
+    ENABLE_PGAS: 0,
+    PGAS_BASE: 0,
+    PGAS_SIZE: 0,
+    CORE_ENABLE_FPU: 0,
+    CORE_ENABLE_PERFCOUNTERS: 0,
+    NA_ENABLE_MPSIMPLE: 1,
+    NA_ENABLE_DMA: 1,
+    NA_DMA_GENIRQ: 1,
+    NA_DMA_ENTRIES: 4,
+    USE_DEBUG: 1'(USE_DEBUG),
+    DEBUG_STM: 1,
+    DEBUG_CTM: 1,
+    DEBUG_DEM_UART: 0,
+    DEBUG_SUBNET_BITS: 6,
+    DEBUG_LOCAL_SUBNET: 0,
+    DEBUG_ROUTER_BUFFER_SIZE: 4,
+    DEBUG_MAX_PKT_LEN: 12
+  };
 
   localparam config_t CONFIG = derive_config(BASE_CONFIG);
 
@@ -106,15 +106,15 @@ module mpsoc4d_or1k_testbench;
 
   // In Verilator, we feed clk and rst from the C++ toplevel, in ModelSim & Co.
   // these signals are generated inside this testbench.
-  `ifndef verilator
+`ifndef verilator
   reg clk;
   reg rst;
-  `endif
+`endif
 
-  logic com_rst;
-  logic logic_rst;
+  logic                                           com_rst;
+  logic                                           logic_rst;
 
-  wire [CONFIG.NUMCTS*CONFIG.CORES_PER_TILE-1:0] termination;
+  wire  [CONFIG.NUMCTS*CONFIG.CORES_PER_TILE-1:0] termination;
 
   // Monitor system behavior in simulation
   genvar t;
@@ -125,30 +125,29 @@ module mpsoc4d_or1k_testbench;
   // Module Body
   //
 
-  glip_channel c_glip_in  (.*);
+  glip_channel c_glip_in (.*);
   glip_channel c_glip_out (.*);
 
   or1k_mpsoc4d #(
-    .CONFIG (CONFIG)
-  )
-  u_system (
-    .clk        (clk),
-    .rst        (rst | logic_rst),
-    .c_glip_in  (c_glip_in),
-    .c_glip_out (c_glip_out),
+    .CONFIG(CONFIG)
+  ) u_system (
+    .clk       (clk),
+    .rst       (rst | logic_rst),
+    .c_glip_in (c_glip_in),
+    .c_glip_out(c_glip_out),
 
-    .wb_ext_ack_o ('x),
-    .wb_ext_err_o ('x),
-    .wb_ext_rty_o ('x),
-    .wb_ext_dat_o ('x),
-    .wb_ext_adr_i (),
-    .wb_ext_cyc_i (),
-    .wb_ext_dat_i (),
-    .wb_ext_sel_i (),
-    .wb_ext_stb_i (),
-    .wb_ext_we_i  (),
-    .wb_ext_cab_i (),
-    .wb_ext_cti_i (),
-    .wb_ext_bte_i ()
+    .wb_ext_ack_o('x),
+    .wb_ext_err_o('x),
+    .wb_ext_rty_o('x),
+    .wb_ext_dat_o('x),
+    .wb_ext_adr_i(),
+    .wb_ext_cyc_i(),
+    .wb_ext_dat_i(),
+    .wb_ext_sel_i(),
+    .wb_ext_stb_i(),
+    .wb_ext_we_i (),
+    .wb_ext_cab_i(),
+    .wb_ext_cti_i(),
+    .wb_ext_bte_i()
   );
 endmodule
