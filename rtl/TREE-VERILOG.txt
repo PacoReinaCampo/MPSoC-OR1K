@@ -1,7 +1,7 @@
 verilog
 └── mpsoc
-    ├── or1k_mpsoc2d.sv
-    ├── or1k_mpsoc3d.sv
-    └── or1k_mpsoc4d.sv
+    ├── mpsoc2d_or1k.sv
+    ├── mpsoc3d_or1k.sv
+    └── mpsoc4d_or1k.sv
 
 1 directory, 3 files

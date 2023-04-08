@@ -40,12 +40,12 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-import dii_package::dii_flit;
-import opensocdebug::mor1kx_trace_exec;
-import optimsoc_config::*;
-import optimsoc_functions::*;
+import peripheral_dbg_soc_dii_channel::dii_flit;
+import opensocdebug::peripheral_dbg_soc_mor1kx_trace_exec;
+import soc_optimsoc_configuration::*;
+import soc_optimsoc_functions::*;
 
-module or1k_mpsoc2d_testbench (
+module mpsoc3d_or1k_tile_testbench (
 `ifdef verilator
   input clk,
   input rst
@@ -64,8 +64,8 @@ module or1k_mpsoc2d_testbench (
   parameter integer LMEM_SIZE = 32 * 1024 * 1024;
 
   localparam base_config_t BASE_CONFIG = '{
-    NUMTILES: 4,
-    NUMCTS: 4,
+    NUMTILES: 8,
+    NUMCTS: 8,
     CTLIST: {{60{16'hx}}, 16'h0, 16'h1, 16'h2, 16'h3},
     CORES_PER_TILE: NUM_CORES,
     GMEM_SIZE: 0,
@@ -143,12 +143,12 @@ module or1k_mpsoc2d_testbench (
     end
   endgenerate
 
-  glip_channel c_glip_in (.*);
-  glip_channel c_glip_out (.*);
+  soc_glip_channel c_glip_in (.*);
+  soc_glip_channel c_glip_out (.*);
 
   if (CONFIG.USE_DEBUG == 1) begin : gen_use_debug_glip
     // TCP communication interface (simulation only)
-    glip_tcp_toplevel u_glip (
+    soc_glip_tcp_top u_glip (
       .*,
       .clk_io   (clk),
       .clk_logic(clk),
@@ -160,11 +160,11 @@ module or1k_mpsoc2d_testbench (
     for (t = 0; t < CONFIG.NUMCTS; t = t + 1) begin : gen_tracemon_ct
 
       logic               [31:0]                           trace_r3[0:CONFIG.CORES_PER_TILE-1];
-      mor1kx_trace_exec [       CONFIG.CORES_PER_TILE-1:0] trace;
+      peripheral_dbg_soc_mor1kx_trace_exec [       CONFIG.CORES_PER_TILE-1:0] trace;
       assign trace = u_system.gen_ct[t].u_ct.trace;
 
       for (i = 0; i < CONFIG.CORES_PER_TILE; i = i + 1) begin : gen_tracemon_core
-        r3_checker u_r3_checker (
+        soc_r3_checker u_soc_r3_checker (
           .clk  (clk),
           .valid(trace[i].valid),
           .we   (trace[i].wben),
@@ -173,7 +173,7 @@ module or1k_mpsoc2d_testbench (
           .r3   (trace_r3[i])
         );
 
-        trace_monitor #(
+        soc_trace_monitor #(
           .STDOUT_FILENAME   ({"stdout.", index2string((t * CONFIG.CORES_PER_TILE) + i)}),
           .TRACEFILE_FILENAME({"trace.", index2string((t * CONFIG.CORES_PER_TILE) + i)}),
           .ENABLE_TRACE      (0),
@@ -192,7 +192,7 @@ module or1k_mpsoc2d_testbench (
     end
   endgenerate
 
-  or1k_mpsoc2d #(
+  mpsoc3d_or1k #(
     .CONFIG(CONFIG)
   ) u_system (
     .clk       (clk),

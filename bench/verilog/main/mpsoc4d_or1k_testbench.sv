@@ -40,10 +40,10 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-import dii_package::dii_flit;
-import opensocdebug::mor1kx_trace_exec;
-import optimsoc_config::*;
-import optimsoc_functions::*;
+import peripheral_dbg_soc_dii_channel::dii_flit;
+import opensocdebug::peripheral_dbg_soc_mor1kx_trace_exec;
+import soc_optimsoc_configuration::*;
+import soc_optimsoc_functions::*;
 
 module mpsoc4d_or1k_testbench;
 
@@ -125,10 +125,10 @@ module mpsoc4d_or1k_testbench;
   // Module Body
   //
 
-  glip_channel c_glip_in (.*);
-  glip_channel c_glip_out (.*);
+  soc_glip_channel c_glip_in (.*);
+  soc_glip_channel c_glip_out (.*);
 
-  or1k_mpsoc4d #(
+  mpsoc4d_or1k #(
     .CONFIG(CONFIG)
   ) u_system (
     .clk       (clk),

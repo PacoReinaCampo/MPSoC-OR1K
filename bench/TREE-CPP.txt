@@ -1,7 +1,7 @@
 cpp
 └── main
-    ├── or1k_mpsoc2d_testbench.cpp
-    ├── or1k_mpsoc3d_testbench.cpp
-    └── or1k_mpsoc4d_testbench.cpp
+    ├── mpsoc2d_or1k_tile_testbench.cpp
+    ├── mpsoc3d_or1k_tile_testbench.cpp
+    └── mpsoc4d_or1k_tile_testbench.cpp
 
 1 directory, 3 files
