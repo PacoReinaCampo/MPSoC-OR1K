@@ -46,18 +46,18 @@ all: build simulate
 
 build_mpsoc2d:
 	xvlog -prj mpsoc2d.prj \
-	-i ../../../../soc/pu/rtl/verilog/pkg \
-	-i ../../../../soc/rtl/verilog/soc/bootrom
+	-i ../../../../../../soc/pu/rtl/verilog/pkg \
+	-i ../../../../../../soc/rtl/verilog/soc/bootrom
 
 build_mpsoc3d:
 	xvlog -prj mpsoc3d.prj \
-	-i ../../../../soc/pu/rtl/verilog/pkg \
-	-i ../../../../soc/rtl/verilog/soc/bootrom
+	-i ../../../../../../soc/pu/rtl/verilog/pkg \
+	-i ../../../../../../soc/rtl/verilog/soc/bootrom
 
 build_mpsoc4d:
 	xvlog -prj mpsoc4d.prj \
-	-i ../../../../soc/pu/rtl/verilog/pkg \
-	-i ../../../../soc/rtl/verilog/soc/bootrom
+	-i ../../../../../../soc/pu/rtl/verilog/pkg \
+	-i ../../../../../../soc/rtl/verilog/soc/bootrom
 
 simulate_mpsoc2d: build_mpsoc2d
 	xelab mpsoc2d_or1k_testbench
