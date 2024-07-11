@@ -1,174 +1,436 @@
-# Execution Unit
+# INSTRUCTIONS
 
-| `Name` | `Value` |
-| :----- | :------ |
-| `ILEN` | `64`    |
+## MAIN
 
-| `Name`      | `Value`  |
-| :---------- | :------- |
-| `INSTR_NOP` | `64'h13` |
-: RISCV Opcodes Package
+### PU OR1K CORE
+### PU OR1K CPU
 
-| `Name`         | `Value`     |
-| :------------- | :---------- |
-| `OPC_LOAD`     | `5'b00_000` |
-| `OPC_LOAD_FP`  | `5'b00_001` |
-| `OPC_MISC_MEM` | `5'b00_011` |
-| `OPC_OP_IMM`   | `5'b00_100` |
-| `OPC_AUIPC`    | `5'b00_101` |
-| `OPC_OP_IMM32` | `5'b00_110` |
-| `OPC_STORE`    | `5'b01_000` |
-| `OPC_STORE_FP` | `5'b01_001` |
-| `OPC_AMO`      | `5'b01_011` |
-| `OPC_OP`       | `5'b01_100` |
-| `OPC_LUI`      | `5'b01_101` |
-| `OPC_OP32`     | `5'b01_110` |
-| `OPC_MADD`     | `5'b10_000` |
-| `OPC_MSUB`     | `5'b10_001` |
-| `OPC_NMSUB`    | `5'b10_010` |
-| `OPC_NMADD`    | `5'b10_011` |
-| `OPC_OP_FP`    | `5'b10_100` |
-| `OPC_BRANCH`   | `5'b11_000` |
-| `OPC_JALR`     | `5'b11_001` |
-| `OPC_JAL`      | `5'b11_011` |
-| `OPC_SYSTEM`   | `5'b11_100` |
-: Opcodes
+## FETCH
 
-## RV32/RV64 Base Instructions
+### PU OR1K FETCH
+### PU OR1K ICACHE
+### PU OR1K IMMU
 
-| `Name`  | `Value`                 |
-| :------ | :---------------------- |
-| `LUI`   | `15'b???????_???_01101` |
-| `AUIPC` | `15'b???????_???_00101` |
-| `JAL`   | `15'b???????_???_11011` |
-| `JALR`  | `15'b???????_000_11001` |
-| `BEQ`   | `15'b???????_000_11000` |
-| `BNE`   | `15'b???????_001_11000` |
-| `BLT`   | `15'b???????_100_11000` |
-| `BGE`   | `15'b???????_101_11000` |
-| `BLTU`  | `15'b???????_110_11000` |
-| `BGEU`  | `15'b???????_111_11000` |
-| `LB`    | `15'b???????_000_00000` |
-| `LH`    | `15'b???????_001_00000` |
-| `LW`    | `15'b???????_010_00000` |
-| `LBU`   | `15'b???????_100_00000` |
-| `LHU`   | `15'b???????_101_00000` |
-| `LWU`   | `15'b???????_110_00000` |
-| `LD`    | `15'b???????_011_00000` |
-| `SB`    | `15'b???????_000_01000` |
-| `SH`    | `15'b???????_001_01000` |
-| `SW`    | `15'b???????_010_01000` |
-| `SD`    | `15'b???????_011_01000` |
-| `ADDI`  | `15'b???????_000_00100` |
-| `ADDIW` | `15'b???????_000_00110` |
-| `ADD`   | `15'b0000000_000_01100` |
-| `ADDW`  | `15'b0000000_000_01110` |
-| `SUB`   | `15'b0100000_000_01100` |
-| `SUBW`  | `15'b0100000_000_01110` |
-| `XORI`  | `15'b???????_100_00100` |
-| `XORX`  | `15'b0000000_100_01100` |
-| `ORI`   | `15'b???????_110_00100` |
-| `ORX`   | `15'b0000000_110_01100` |
-| `ANDI`  | `15'b???????_111_00100` |
-| `ANDX`  | `15'b0000000_111_01100` |
-| `SLLI`  | `15'b000000?_001_00100` |
-| `SLLIW` | `15'b0000000_001_00110` |
-| `SLLX`  | `15'b0000000_001_01100` |
-| `SLLW`  | `15'b0000000_001_01110` |
-| `SLTI`  | `15'b???????_010_00100` |
-| `SLT`   | `15'b0000000_010_01100` |
-| `SLTU`  | `15'b0000000_011_01100` |
-| `SLTIU` | `15'b???????_011_00100` |
-| `SRLI`  | `15'b000000?_101_00100` |
-| `SRLIW` | `15'b0000000_101_00110` |
-| `SRLX`  | `15'b0000000_101_01100` |
-| `SRLW`  | `15'b0000000_101_01110` |
-| `SRAI`  | `15'b010000?_101_00100` |
-| `SRAIW` | `15'b0100000_101_00110` |
-| `SRAX`  | `15'b0100000_101_01100` |
-| `SRAW`  | `15'b0100000_101_01110` |
-: F7-F3 Opcode Base Instructions
+## DECODE
 
-| `Name`    | `Value`                 | `Description`                 |
-| :-------- | :---------------------- | :---------------------------- |
-| `SYSTEM`  | `15'b???????_000_11100` | `excludes RDxxx instructions` |
-| `MISCMEM` | `15'b???????_???_00011` |                               |
-: Pseudo Instructions
+### PU OR1K DECODE
+### PU OR1K DECODE-EXECUTE
 
-| `Name`      | `Value`                                    |
-| :---------- | :----------------------------------------- |
-| `FENCE`     | `32'b0000????????_00000_000_00000_0001111` |
-| `SFENCE_VM` | `32'b000100000100_?????_000_00000_1110011` |
-| `FENCE_I`   | `32'b000000000000_00000_001_00000_0001111` |
-| `ECALL`     | `32'b000000000000_00000_000_00000_1110011` |
-| `EBREAK`    | `32'b000000000001_00000_000_00000_1110011` |
-| `MRET`      | `32'b001100000010_00000_000_00000_1110011` |
-| `HRET`      | `32'b001000000010_00000_000_00000_1110011` |
-| `SRET`      | `32'b000100000010_00000_000_00000_1110011` |
-| `URET`      | `32'b000000000010_00000_000_00000_1110011` |
-| `MRTS`      | `32'b001100000101_00000_000_00000_1110011` |
-| `MRTH`      | `32'b001100000110_00000_000_00000_1110011` |
-| `HRTS`      | `32'b001000000101_00000_000_00000_1110011` |
-| `WFI`       | `32'b000100000101_00000_000_00000_1110011` |
-: SYSTEM/MISC_MEM Opcodes
+## EXECUTE
 
-| `Name`   | `Value`                 |
-| :------- | :---------------------- |
-| `CSRRW`  | `15'b???????_001_11100` |
-| `CSRRS`  | `15'b???????_010_11100` |
-| `CSRRC`  | `15'b???????_011_11100` |
-| `CSRRWI` | `15'b???????_101_11100` |
-| `CSRRSI` | `15'b???????_110_11100` |
-| `CSRRCI` | `15'b???????_111_11100` |
-: F7-F3 Opcode
+### PU OR1K EXECUTE-ALU
+### PU OR1K WB-MUX
+### PU OR1K RF
+### PU OR1K EXECUTE-CTRL
 
-## RV32/RV64 A-Extensions Instructions
+| `Name`            | `Value` |
+| :---------------- | :------ |
+| `OR1K_INSN_WIDTH` | `32`    |
 
-| `Name`     | `Value`                 |
-| :--------- | :---------------------- |
-| `LRW`      | `15'b00010??_010_01011` |
-| `SCW`      | `15'b00011??_010_01011` |
-| `AMOSWAPW` | `15'b00001??_010_01011` |
-| `AMOADDW`  | `15'b00000??_010_01011` |
-| `AMOXORW`  | `15'b00100??_010_01011` |
-| `AMOANDW`  | `15'b01100??_010_01011` |
-| `AMOORW`   | `15'b01000??_010_01011` |
-| `AMOMINW`  | `15'b10000??_010_01011` |
-| `AMOMAXW`  | `15'b10100??_010_01011` |
-| `AMOMINUW` | `15'b11000??_010_01011` |
-| `AMOMAXUW` | `15'b11100??_010_01011` |
-: F7-F3 Opcode A-Extensions Instructions W
+| `Name`           | `Value` |
+| :--------------- | :------ |
+| `OR1K_RD_SELECT` | `25:21` |
+| `OR1K_RA_SELECT` | `20:16` |
+| `OR1K_RB_SELECT` | `15:11` |
 
-| `Name`     | `Value`                 |
-| :--------- | :---------------------- |
-| `LRD`      | `15'b00010??_011_01011` |
-| `SCD`      | `15'b00011??_011_01011` |
-| `AMOSWAPD` | `15'b00001??_011_01011` |
-| `AMOADDD`  | `15'b00000??_011_01011` |
-| `AMOXORD`  | `15'b00100??_011_01011` |
-| `AMOANDD`  | `15'b01100??_011_01011` |
-| `AMOORD`   | `15'b01000??_011_01011` |
-| `AMOMIND`  | `15'b10000??_011_01011` |
-| `AMOMAXD`  | `15'b10100??_011_01011` |
-| `AMOMINUD` | `15'b11000??_011_01011` |
-| `AMOMAXUD` | `15'b11100??_011_01011` |
-: F7-F3 Opcode A-Extensions Instructions D
+| `Name`            | `Value` |
+| :---------------- | :------ |
+| `OR1K_IMM_WIDTH`  | `16`    |
+| `OR1K_IMM_SELECT` | `15:0`  |
 
-## RV32/RV64 M-Extensions Instructions
+| `Name`                | `Value` |
+| :-------------------- | :------ |
+| `OR1K_ALU_OPC_WIDTH`  | `4`     |
+| `OR1K_ALU_OPC_SELECT` | `3:0`   |
 
-| `Name`   | `Value`                 |
-| :------- | :---------------------- |
-| `MUL`    | `15'b0000001_000_01100` |
-| `MULH`   | `15'b0000001_001_01100` |
-| `MULW`   | `15'b0000001_000_01110` |
-| `MULHSU` | `15'b0000001_010_01100` |
-| `MULHU`  | `15'b0000001_011_01100` |
-| `DIV`    | `15'b0000001_100_01100` |
-| `DIVW`   | `15'b0000001_100_01110` |
-| `DIVU`   | `15'b0000001_101_01100` |
-| `DIVUW`  | `15'b0000001_101_01110` |
-| `REM`    | `15'b0000001_110_01100` |
-| `REMW`   | `15'b0000001_110_01110` |
-| `REMU`   | `15'b0000001_111_01100` |
-| `REMUW`  | `15'b0000001_111_01110` |
-: F7-F3 Opcode M-Extensions Instructions
+| `Name`               | `Value`                 |
+| :------------------- | :---------------------- |
+| `OR1K_ALU_OPC_ADD`   | `OR1K_ALU_OPC_WIDTH'h0` |
+| `OR1K_ALU_OPC_ADDC`  | `OR1K_ALU_OPC_WIDTH'h1` |
+| `OR1K_ALU_OPC_SUB`   | `OR1K_ALU_OPC_WIDTH'h2` |
+| `OR1K_ALU_OPC_AND`   | `OR1K_ALU_OPC_WIDTH'h3` |
+| `OR1K_ALU_OPC_OR`    | `OR1K_ALU_OPC_WIDTH'h4` |
+| `OR1K_ALU_OPC_XOR`   | `OR1K_ALU_OPC_WIDTH'h5` |
+| `OR1K_ALU_OPC_MUL`   | `OR1K_ALU_OPC_WIDTH'h6` |
+| `OR1K_ALU_OPC_RESV`  | `OR1K_ALU_OPC_WIDTH'h7` |
+| `OR1K_ALU_OPC_SHRT`  | `OR1K_ALU_OPC_WIDTH'h8` |
+| `OR1K_ALU_OPC_DIV`   | `OR1K_ALU_OPC_WIDTH'h9` |
+| `OR1K_ALU_OPC_DIVU`  | `OR1K_ALU_OPC_WIDTH'ha` |
+| `OR1K_ALU_OPC_MULU`  | `OR1K_ALU_OPC_WIDTH'hb` |
+| `OR1K_ALU_OPC_EXTBH` | `OR1K_ALU_OPC_WIDTH'hc` |
+| `OR1K_ALU_OPC_EXTW`  | `OR1K_ALU_OPC_WIDTH'hd` |
+| `OR1K_ALU_OPC_CMOV`  | `OR1K_ALU_OPC_WIDTH'he` |
+| `OR1K_ALU_OPC_FFL1`  | `OR1K_ALU_OPC_WIDTH'hf` |
+
+| `Name`                          | `Value` |
+| :------------------------------ | :------ |
+| `OR1K_ALU_OPC_SECONDARY_WIDTH`  | `3`     |
+| `OR1K_ALU_OPC_SECONDARY_SELECT` | `8:6`   |
+
+| `Name`                            | `Value`                           |
+| :-------------------------------- | :-------------------------------- |
+| `OR1K_ALU_OPC_SECONDARY_SHRT_SLL` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h0` |
+| `OR1K_ALU_OPC_SECONDARY_SHRT_SRL` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h1` |
+| `OR1K_ALU_OPC_SECONDARY_SHRT_SRA` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h2` |
+| `OR1K_ALU_OPC_SECONDARY_SHRT_ROR` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h3` |
+
+| `Name`                               | `Value`                           |
+| :----------------------------------- | :-------------------------------- |
+| `OR1K_ALU_OPC_SECONDARY_EXTBH_EXTHS` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h0` |
+| `OR1K_ALU_OPC_SECONDARY_EXTW_EXTWS`  | `OR1K_ALU_OPC_SECONDARY_WIDTH'h0` |
+| `OR1K_ALU_OPC_SECONDARY_EXTBH_EXTBS` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h1` |
+| `OR1K_ALU_OPC_SECONDARY_EXTW_EXTWZ`  | `OR1K_ALU_OPC_SECONDARY_WIDTH'h1` |
+| `OR1K_ALU_OPC_SECONDARY_EXTBH_EXTHZ` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h2` |
+| `OR1K_ALU_OPC_SECONDARY_EXTBH_EXTBZ` | `OR1K_ALU_OPC_SECONDARY_WIDTH'h3` |
+
+| `Name`                 | `Value`                  |
+| :--------------------- | :----------------------- |
+| `OR1K_COMP_OPC_WIDTH`  | `4`                      |
+| `OR1K_COMP_OPC_SELECT` | `24:21`                  |
+| `OR1K_COMP_OPC_EQ`     | `OR1K_COMP_OPC_WIDTH'h0` |
+| `OR1K_COMP_OPC_NE`     | `OR1K_COMP_OPC_WIDTH'h1` |
+| `OR1K_COMP_OPC_GTU`    | `OR1K_COMP_OPC_WIDTH'h2` |
+| `OR1K_COMP_OPC_GEU`    | `OR1K_COMP_OPC_WIDTH'h3` |
+| `OR1K_COMP_OPC_LTU`    | `OR1K_COMP_OPC_WIDTH'h4` |
+| `OR1K_COMP_OPC_LEU`    | `OR1K_COMP_OPC_WIDTH'h5` |
+| `OR1K_COMP_OPC_GTS`    | `OR1K_COMP_OPC_WIDTH'ha` |
+| `OR1K_COMP_OPC_GES`    | `OR1K_COMP_OPC_WIDTH'hb` |
+| `OR1K_COMP_OPC_LTS`    | `OR1K_COMP_OPC_WIDTH'hc` |
+| `OR1K_COMP_OPC_LES`    | `OR1K_COMP_OPC_WIDTH'hd` |
+
+| `Name`                             | `Value` |
+| :--------------------------------- | :------ |
+| `OR1K_JUMPBRANCH_IMMEDIATE_SELECT` | `25:0`  |
+
+| `Name`                         | `Value`                         |
+| :----------------------------- | :------------------------------ |
+| `OR1K_SYSTRAPSYNC_OPC_WIDTH`   | `3`                             |
+| `OR1K_SYSTRAPSYNC_OPC_SELECT`  | `25:23`                         |
+| `OR1K_SYSTRAPSYNC_OPC_SYSCALL` | `OR1K_SYSTRAPSYNC_OPC_WIDTH'h0` |
+| `OR1K_SYSTRAPSYNC_OPC_TRAP`    | `OR1K_SYSTRAPSYNC_OPC_WIDTH'h2` |
+| `OR1K_SYSTRAPSYNC_OPC_MSYNC`   | `OR1K_SYSTRAPSYNC_OPC_WIDTH'h4` |
+| `OR1K_SYSTRAPSYNC_OPC_PSYNC`   | `OR1K_SYSTRAPSYNC_OPC_WIDTH'h5` |
+| `OR1K_SYSTRAPSYNC_OPC_CSYNC`   | `OR1K_SYSTRAPSYNC_OPC_WIDTH'h6` |
+
+| `Name`               | `Value` |
+| :------------------- | :------ |
+| `OR1K_OPCODE_WIDTH`  | `6`     |
+| `OR1K_OPCODE_SELECT` | `31:26` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_J`     | `{2'b00, 4'h0}` |
+| `OR1K_OPCODE_JAL`   | `{2'b00, 4'h1}` |
+| `OR1K_OPCODE_BNF`   | `{2'b00, 4'h3}` |
+| `OR1K_OPCODE_BF`    | `{2'b00, 4'h4}` |
+| `OR1K_OPCODE_NOP`   | `{2'b00, 4'h5}` |
+| `OR1K_OPCODE_MOVHI` | `{2'b00, 4'h6}` |
+| `OR1K_OPCODE_MACRC` | `{2'b00, 4'h6}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_SYS`   | `{2'b00, 4'h8}` |
+| `OR1K_OPCODE_TRAP`  | `{2'b00, 4'h8}` |
+| `OR1K_OPCODE_MSYNC` | `{2'b00, 4'h8}` |
+| `OR1K_OPCODE_PSYNC` | `{2'b00, 4'h8}` |
+| `OR1K_OPCODE_CSYNC` | `{2'b00, 4'h8}` |
+
+| `Name`                    | `Value`         |
+| :------------------------ | :-------------- |
+| `OR1K_OPCODE_SYSTRAPSYNC` | `{2'b00, 4'h8}` |
+| `OR1K_OPCODE_RFE`         | `{2'b00, 4'h9}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_JR`    | `{2'b01, 4'h1}` |
+| `OR1K_OPCODE_JALR`  | `{2'b01, 4'h2}` |
+| `OR1K_OPCODE_MACI`  | `{2'b01, 4'h3}` |
+| `OR1K_OPCODE_LWA`   | `{2'b01, 4'hB}` |
+| `OR1K_OPCODE_CUST1` | `{2'b01, 4'hC}` |
+| `OR1K_OPCODE_CUST2` | `{2'b01, 4'hD}` |
+| `OR1K_OPCODE_CUST3` | `{2'b01, 4'hE}` |
+| `OR1K_OPCODE_CUST4` | `{2'b01, 4'hF}` |
+
+| `Name`            | `Value`         |
+| :---------------- | :-------------- |
+| `OR1K_OPCODE_LD`  | `{2'b10, 4'h0}` |
+| `OR1K_OPCODE_LWZ` | `{2'b10, 4'h1}` |
+| `OR1K_OPCODE_LWS` | `{2'b10, 4'h2}` |
+| `OR1K_OPCODE_LBZ` | `{2'b10, 4'h3}` |
+| `OR1K_OPCODE_LBS` | `{2'b10, 4'h4}` |
+| `OR1K_OPCODE_LHZ` | `{2'b10, 4'h5}` |
+| `OR1K_OPCODE_LHS` | `{2'b10, 4'h6}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_ADDI`  | `{2'b10, 4'h7}` |
+| `OR1K_OPCODE_ADDIC` | `{2'b10, 4'h8}` |
+| `OR1K_OPCODE_ANDI`  | `{2'b10, 4'h9}` |
+| `OR1K_OPCODE_ORI`   | `{2'b10, 4'hA}` |
+| `OR1K_OPCODE_XORI`  | `{2'b10, 4'hB}` |
+| `OR1K_OPCODE_MULI`  | `{2'b10, 4'hC}` |
+| `OR1K_OPCODE_MFSPR` | `{2'b10, 4'hD}` |
+
+| `Name`             | `Value`         |
+| :----------------- | :-------------- |
+| `OR1K_OPCODE_SLLI` | `{2'b10, 4'hE}` |
+| `OR1K_OPCODE_SRLI` | `{2'b10, 4'hE}` |
+| `OR1K_OPCODE_SRAI` | `{2'b10, 4'hE}` |
+| `OR1K_OPCODE_RORI` | `{2'b10, 4'hE}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_SHRTI` | `{2'b10, 4'hE}` |
+
+| `Name`               | `Value`         |
+| :------------------- | :-------------- |
+| `OR1K_OPCODE_SFEQI`  | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFNEI`  | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFGTUI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFGEUI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFLTUI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFLEUI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFGTSI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFGESI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFLTSI` | `{2'b10, 4'hF}` |
+| `OR1K_OPCODE_SFLESI` | `{2'b10, 4'hF}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_SFIMM` | `{2'b10, 4'hF}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_MTSPR` | `{2'b11, 4'h0}` |
+| `OR1K_OPCODE_MAC`   | `{2'b11, 4'h1}` |
+| `OR1K_OPCODE_MSB`   | `{2'b11, 4'h1}` |
+
+| `Name`            | `Value`         |
+| :---------------- | :-------------- |
+| `OR1K_OPCODE_SWA` | `{2'b11, 4'h3}` |
+| `OR1K_OPCODE_SD`  | `{2'b11, 4'h4}` |
+| `OR1K_OPCODE_SW`  | `{2'b11, 4'h5}` |
+| `OR1K_OPCODE_SB`  | `{2'b11, 4'h6}` |
+| `OR1K_OPCODE_SH`  | `{2'b11, 4'h7}` |
+
+| `Name`             | `Value`         |
+| :----------------- | :-------------- |
+| `OR1K_OPCODE_ADD`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_ADDC` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_SUB`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_AND`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_OR`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_XOR`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_MUL`  | `{2'b11, 4'h8}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_SLL`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_SRL`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_SRA`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_ROR`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_DIV`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_DIVU`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_MULU`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_EXTBS` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_EXTHS` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_EXTWS` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_EXTBZ` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_EXTHZ` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_EXTWZ` | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_CMOV`  | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_FF1`   | `{2'b11, 4'h8}` |
+| `OR1K_OPCODE_FL1`   | `{2'b11, 4'h8}` |
+
+| `Name`            | `Value`         |
+| :---------------- | :-------------- |
+| `OR1K_OPCODE_ALU` | `{2'b11, 4'h8}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_SFEQ`  | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFNE`  | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFGTU` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFGEU` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFLTU` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFLEU` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFGTS` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFGES` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFLTS` | `{2'b11, 4'h9}` |
+| `OR1K_OPCODE_SFLES` | `{2'b11, 4'h9}` |
+
+| `Name`           | `Value`         |
+| :--------------- | :-------------- |
+| `OR1K_OPCODE_SF` | `{2'b11, 4'h9}` |
+
+| `Name`              | `Value`         |
+| :------------------ | :-------------- |
+| `OR1K_OPCODE_CUST5` | `{2'b11, 4'hC}` |
+| `OR1K_OPCODE_CUST6` | `{2'b11, 4'hD}` |
+| `OR1K_OPCODE_CUST7` | `{2'b11, 4'hE}` |
+| `OR1K_OPCODE_CUST8` | `{2'b11, 4'hF}` |
+
+| `Name`            | `Value`         |
+| :---------------- | :-------------- |
+| `OR1K_OPCODE_FPU` | `{2'b11, 4'h2}` |
+
+| `Name`          | `Value`       |
+| :-------------- | :------------ |
+| `SPR_BASE(x)`   | `(x/(2**11))` |
+| `SPR_OFFSET(x)` | `(x%(2**11))` |
+
+| `Name`                   | `Value`           |
+| :----------------------- | :---------------- |
+| `OR1K_SPR_SYS_BASE`      | `{4'd0}`          |
+| `OR1K_SPR_VR_ADDR`       | `{5'd0,11'd0}`    |
+| `OR1K_SPR_UPR_ADDR`      | `{5'd0,11'd1}`    |
+| `OR1K_SPR_CPUCFGR_ADDR`  | `{5'd0,11'd2}`    |
+| `OR1K_SPR_DMMUCFGR_ADDR` | `{5'd0,11'd3}`    |
+| `OR1K_SPR_IMMUCFGR_ADDR` | `{5'd0,11'd4}`    |
+| `OR1K_SPR_DCCFGR_ADDR`   | `{5'd0,11'd5}`    |
+| `OR1K_SPR_ICCFGR_ADDR`   | `{5'd0,11'd6}`    |
+| `OR1K_SPR_DCFGR_ADDR`    | `{5'd0,11'd7}`    |
+| `OR1K_SPR_PCCFGR_ADDR`   | `{5'd0,11'd8}`    |
+| `OR1K_SPR_VR2_ADDR`      | `{5'd0,11'd9}`    |
+| `OR1K_SPR_AVR_ADDR`      | `{5'd0,11'd10}`   |
+| `OR1K_SPR_EVBAR_ADDR`    | `{5'd0,11'd11}`   |
+| `OR1K_SPR_AECR_ADDR`     | `{5'd0,11'd12}`   |
+| `OR1K_SPR_AESR_ADDR`     | `{5'd0,11'd13}`   |
+| `OR1K_SPR_NPC_ADDR`      | `{5'd0,11'd16}`   |
+| `OR1K_SPR_SR_ADDR`       | `{5'd0,11'd17}`   |
+| `OR1K_SPR_PPC_ADDR`      | `{5'd0,11'd18}`   |
+| `OR1K_SPR_FPCSR_ADDR`    | `{5'd0,11'd20}`   |
+| `OR1K_SPR_ISR0_ADDR`     | `{5'd0,11'd21}`   |
+| `OR1K_SPR_EPCR0_ADDR`    | `{5'd0,11'd32}`   |
+| `OR1K_SPR_EEAR0_ADDR`    | `{5'd0,11'd48}`   |
+| `OR1K_SPR_ESR0_ADDR`     | `{5'd0,11'd64}`   |
+| `OR1K_SPR_COREID_ADDR`   | `{5'd0,11'd128}`  |
+| `OR1K_SPR_NUMCORES_ADDR` | `{5'd0,11'd129}`  |
+| `OR1K_SPR_GPR0_ADDR`     | `{5'd0,11'd1024}` |
+
+: Addresses
+
+| `Name`                    | `Value`           |
+| :------------------------ | :---------------- |
+| `OR1K_SPR_DMMU_BASE`      | `{4'd1}`          |
+| `OR1K_SPR_DMMUCR_ADDR`    | `{5'd1,11'd0}`    |
+| `OR1K_SPR_DMMUPR_ADDR`    | `{5'd1,11'd1}`    |
+| `OR1K_SPR_DTLBEIR_ADDR`   | `{5'd1,11'd2}`    |
+| `OR1K_SPR_DATBMR0_ADDR`   | `{5'd1,11'd4}`    |
+| `OR1K_SPR_DATBTR0_ADDR`   | `{5'd1,11'd8}`    |
+| `OR1K_SPR_DTLBW0MR0_ADDR` | `{5'd1,11'd512}`  |
+| `OR1K_SPR_DTLBW0TR0_ADDR` | `{5'd1,11'd640}`  |
+| `OR1K_SPR_DTLBW1MR0_ADDR` | `{5'd1,11'd768}`  |
+| `OR1K_SPR_DTLBW1TR0_ADDR` | `{5'd1,11'd896}`  |
+| `OR1K_SPR_DTLBW2MR0_ADDR` | `{5'd1,11'd1024}` |
+| `OR1K_SPR_DTLBW2TR0_ADDR` | `{5'd1,11'd1152}` |
+| `OR1K_SPR_DTLBW3MR0_ADDR` | `{5'd1,11'd1280}` |
+| `OR1K_SPR_DTLBW3TR0_ADDR` | `{5'd1,11'd1408}` |
+
+| `Name`                    | `Value`           |
+| :------------------------ | :---------------- |
+| `OR1K_SPR_IMMU_BASE`      | `{4'd2}`          |
+| `OR1K_SPR_IMMUCR_ADDR`    | `{5'd2,11'd0}`    |
+| `OR1K_SPR_IMMUPR_ADDR`    | `{5'd2,11'd1}`    |
+| `OR1K_SPR_ITLBEIR_ADDR`   | `{5'd2,11'd2}`    |
+| `OR1K_SPR_IATBMR0_ADDR`   | `{5'd2,11'd4}`    |
+| `OR1K_SPR_IATBTR0_ADDR`   | `{5'd2,11'd8}`    |
+| `OR1K_SPR_ITLBW0MR0_ADDR` | `{5'd2,11'd512}`  |
+| `OR1K_SPR_ITLBW0TR0_ADDR` | `{5'd2,11'd640}`  |
+| `OR1K_SPR_ITLBW1MR0_ADDR` | `{5'd2,11'd768}`  |
+| `OR1K_SPR_ITLBW1TR0_ADDR` | `{5'd2,11'd896}`  |
+| `OR1K_SPR_ITLBW2MR0_ADDR` | `{5'd2,11'd1024}` |
+| `OR1K_SPR_ITLBW2TR0_ADDR` | `{5'd2,11'd1152}` |
+| `OR1K_SPR_ITLBW3MR0_ADDR` | `{5'd2,11'd1280}` |
+| `OR1K_SPR_ITLBW3TR0_ADDR` | `{5'd2,11'd1408}` |
+
+| `Name`                | `Value`        |
+| :-------------------- | :------------- |
+| `OR1K_SPR_DC_BASE`    | `{4'd3}`       |
+| `OR1K_SPR_DCCR_ADDR`  | `{5'd3,11'd0}` |
+| `OR1K_SPR_DCBPR_ADDR` | `{5'd3,11'd1}` |
+| `OR1K_SPR_DCBFR_ADDR` | `{5'd3,11'd2}` |
+| `OR1K_SPR_DCBIR_ADDR` | `{5'd3,11'd3}` |
+| `OR1K_SPR_DCBWR_ADDR` | `{5'd3,11'd4}` |
+| `OR1K_SPR_DCBLR_ADDR` | `{5'd3,11'd5}` |
+
+| `Name`                | `Value`        |
+| :-------------------- | :------------- |
+| `OR1K_SPR_IC_BASE`    | `{4'd4}`       |
+| `OR1K_SPR_ICCR_ADDR`  | `{5'd4,11'd0}` |
+| `OR1K_SPR_ICBPR_ADDR` | `{5'd4,11'd1}` |
+| `OR1K_SPR_ICBIR_ADDR` | `{5'd4,11'd2}` |
+| `OR1K_SPR_ICBLR_ADDR` | `{5'd4,11'd3}` |
+
+| `Name`                | `Value`        |
+| :-------------------- | :------------- |
+| `OR1K_SPR_MAC_BASE`   | `{4'd5}`       |
+| `OR1K_SPR_MACLO_ADDR` | `{5'd5,11'd1}` |
+| `OR1K_SPR_MACHI_ADDR` | `{5'd5,11'd2}` |
+
+| `Name`                | `Value`         |
+| :-------------------- | :-------------- |
+| `OR1K_SPR_DU_BASE`    | `{4'd6}`        |
+| `OR1K_SPR_DVR0_ADDR`  | `{5'd6,11'd0}`  |
+| `OR1K_SPR_DCR0_ADDR`  | `{5'd6,11'd8}`  |
+| `OR1K_SPR_DMR1_ADDR`  | `{5'd6,11'd16}` |
+| `OR1K_SPR_DMR2_ADDR`  | `{5'd6,11'd17}` |
+| `OR1K_SPR_DCWR0_ADDR` | `{5'd6,11'd18}` |
+| `OR1K_SPR_DSR_ADDR`   | `{5'd6,11'd20}` |
+| `OR1K_SPR_DRR_ADDR`   | `{5'd6,11'd21}` |
+
+| `Name`                | `Value`         |
+| :-------------------- | :-------------- |
+| `OR1K_SPR_PC_BASE`    | `{4'd7}`        |
+| `OR1K_SPR_PCCR0_ADDR` | `{5'd7,11'd0}`  |
+| `OR1K_SPR_PCCR1_ADDR` | `{5'd7,11'd1}`  |
+| `OR1K_SPR_PCCR2_ADDR` | `{5'd7,11'd2}`  |
+| `OR1K_SPR_PCCR3_ADDR` | `{5'd7,11'd3}`  |
+| `OR1K_SPR_PCCR4_ADDR` | `{5'd7,11'd4}`  |
+| `OR1K_SPR_PCCR5_ADDR` | `{5'd7,11'd5}`  |
+| `OR1K_SPR_PCCR6_ADDR` | `{5'd7,11'd6}`  |
+| `OR1K_SPR_PCCR7_ADDR` | `{5'd7,11'd7}`  |
+| `OR1K_SPR_PCMR0_ADDR` | `{5'd7,11'd8}`  |
+| `OR1K_SPR_PCMR1_ADDR` | `{5'd7,11'd9}`  |
+| `OR1K_SPR_PCMR2_ADDR` | `{5'd7,11'd10}` |
+| `OR1K_SPR_PCMR3_ADDR` | `{5'd7,11'd11}` |
+| `OR1K_SPR_PCMR4_ADDR` | `{5'd7,11'd12}` |
+| `OR1K_SPR_PCMR5_ADDR` | `{5'd7,11'd13}` |
+| `OR1K_SPR_PCMR6_ADDR` | `{5'd7,11'd14}` |
+| `OR1K_SPR_PCMR7_ADDR` | `{5'd7,11'd15}` |
+
+| `Name`              | `Value`        |
+| :------------------ | :------------- |
+| `OR1K_SPR_PM_BASE`  | `{4'd8}`       |
+| `OR1K_SPR_PMR_ADDR` | `{5'd8,11'd0}` |
+
+| `Name`                | `Value`        |
+| :-------------------- | :------------- |
+| `OR1K_SPR_PIC_BASE`   | `{4'd9}`       |
+| `OR1K_SPR_PICMR_ADDR` | `{5'd9,11'd0}` |
+| `OR1K_SPR_PICSR_ADDR` | `{5'd9,11'd2}` |
+
+| `Name`               | `Value`         |
+| :------------------- | :-------------- |
+| `OR1K_SPR_TT_BASE`   | `{4'd10}`       |
+| `OR1K_SPR_TTMR_ADDR` | `{5'd10,11'd0}` |
+| `OR1K_SPR_TTCR_ADDR` | `{5'd10,11'd1}` |
+
+| `Name`              | `Value`   |
+| :------------------ | :-------- |
+| `OR1K_SPR_FPU_BASE` | `{4'd11}` |
+
+## MEMORY
+
+### PU OR1K LSU
+### PU OR1K DCACHE
+### PU OR1K DMMU
+
+## CONTROL
+
+### PU OR1K CTRL
+### PU OR1K BRANCH-PREDICTION
+
+## PERIPHERAL
+
+### PU OR1K PFPU32

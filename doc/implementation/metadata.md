@@ -1,5 +1,5 @@
 ---
-title: 'OpenRISC ISA'
+title: 'OpenRISC Implementation'
 subtitle: '![](openrisc.png){width=5cm}'
 
 author: Paco Reina Campo
