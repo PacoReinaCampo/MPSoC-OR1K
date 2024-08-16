@@ -1,5 +1,5 @@
 ---
-title: 'OpenRISC Implementation'
+title: '**OpenRISC Implementation**'
 subtitle: '![](openrisc.png){width=5cm}'
 
 author: Paco Reina Campo
