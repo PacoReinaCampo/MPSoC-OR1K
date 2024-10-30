@@ -27,17 +27,20 @@
 | :------------------ | :------ |
 | `OR1K_FPUOP_WIDTH`  | `8`     |
 | `OR1K_FPUOP_SELECT` | `7:0`   |
+
 : MSbit indicates FPU operation valid
 
 | `Name`                          | `Value` |
 | :------------------------------ | :------ |
 | `OR1K_FPUOP_GENERIC_CMP_WIDTH`  | `3`     |
 | `OR1K_FPUOP_GENERIC_CMP_SELECT` | `2:0`   |
+
 : Select bits for Ordered/Unordered comparison
 
 | `Name`                         | `Value` |
 | :----------------------------- | :------ |
 | `OR1K_FPUOP_UNORDERED_CMP_BIT` | `5`     |
+
 : Unordered comparison bit
 
 FP instruction is double precision if bit 4 is set. We're a 32-bit
@@ -45,6 +48,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `Name`                  | `Value` |
 | :---------------------- | :------ |
 | `OR1K_FPUOP_DOUBLE_BIT` | `4`     |
+
 : implementation thus do not support double precision FP
 
 | `Name`                | `Value`        |
@@ -57,6 +61,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `OR1K_FPUOP_FTOI`     | `8'b0000_0101` |
 | `OR1K_FPUOP_REM`      | `8'b0000_0110` |
 | `OR1K_FPUOP_RESERVED` | `8'b0000_0111` |
+
 : FP Arithmetic OPCs
 
 | `Name`            | `Value`        |
@@ -67,6 +72,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `OR1K_FPCOP_SFGE` | `8'b0000_1011` |
 | `OR1K_FPCOP_SFLT` | `8'b0000_1100` |
 | `OR1K_FPCOP_SFLE` | `8'b0000_1101` |
+
 : FP Ordered Comparison OPCs
 
 | `Name`             | `Value`        |
@@ -78,6 +84,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `OR1K_FPCOP_SFULT` | `8'b0010_1100` |
 | `OR1K_FPCOP_SFULE` | `8'b0010_1101` |
 | `OR1K_FPCOP_SFUN`  | `8'b0010_1110` |
+
 : FP Unordered Comparison OPCs
 
 ## MEMORY
@@ -99,17 +106,20 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | :------------------ | :------ |
 | `OR1K_FPUOP_WIDTH`  | `8`     |
 | `OR1K_FPUOP_SELECT` | `7:0`   |
+
 : MSbit indicates FPU operation valid
 
 | `Name`                          | `Value` |
 | :------------------------------ | :------ |
 | `OR1K_FPUOP_GENERIC_CMP_WIDTH`  | `3`     |
 | `OR1K_FPUOP_GENERIC_CMP_SELECT` | `2:0`   |
+
 : Select bits for Ordered/Unordered comparison
 
 | `Name`                         | `Value` |
 | :----------------------------- | :------ |
 | `OR1K_FPUOP_UNORDERED_CMP_BIT` | `5`     |
+
 : Unordered comparison bit
 
 FP instruction is double precision if bit 4 is set. We're a 32-bit
@@ -117,6 +127,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `Name`                  | `Value` |
 | :---------------------- | :------ |
 | `OR1K_FPUOP_DOUBLE_BIT` | `4`     |
+
 : implementation thus do not support double precision FP
 
 | `Name`                | `Value`        |
@@ -129,6 +140,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `OR1K_FPUOP_FTOI`     | `8'b0000_0101` |
 | `OR1K_FPUOP_REM`      | `8'b0000_0110` |
 | `OR1K_FPUOP_RESERVED` | `8'b0000_0111` |
+
 : FP Arithmetic OPCs
 
 | `Name`            | `Value`        |
@@ -139,6 +151,7 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `OR1K_FPCOP_SFGE` | `8'b0000_1011` |
 | `OR1K_FPCOP_SFLT` | `8'b0000_1100` |
 | `OR1K_FPCOP_SFLE` | `8'b0000_1101` |
+
 : FP Ordered Comparison OPCs
 
 | `Name`             | `Value`        |
@@ -150,4 +163,5 @@ FP instruction is double precision if bit 4 is set. We're a 32-bit
 | `OR1K_FPCOP_SFULT` | `8'b0010_1100` |
 | `OR1K_FPCOP_SFULE` | `8'b0010_1101` |
 | `OR1K_FPCOP_SFUN`  | `8'b0010_1110` |
+
 : FP Unordered Comparison OPCs

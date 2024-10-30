@@ -623,4 +623,5 @@ Format of a line in the table:
 | `lv.unpack.h rD,rA,rB` | `The lower half of the 8-bit elements in general-purpose register rA are sign-extended and placed into general-purpose register rD.`                                                                                                                                                                      |
 | `lv.xor rD,rA,rB`      | `The contents of general-purpose register rA are combined with the contents of general-purpose register rB in a bit-wise logical XOR operation`                                                                                                                                                           |
 |                        | `The result is placed into general-purpose register rD.`                                                                                                                                                                                                                                                  |
+
 : OpenRISC - "OpenRISC Base Integer Instruction Set"

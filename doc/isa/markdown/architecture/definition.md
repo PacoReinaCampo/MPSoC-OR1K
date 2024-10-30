@@ -7,6 +7,7 @@ This directory contains MetaData for the RISC-V Instruction Set Architecture
 | `enums`                        | `Enumerated Types`                      |
 | `constraints`                  | `Constraint Definitions`                |
 | `operands`                     | `Operand Bit Encodings`                 |
+
 : Definition Directory
 
 OpenRISC 1000 instructions belong to one of the following instruction subsets:

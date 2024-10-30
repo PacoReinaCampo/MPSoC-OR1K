@@ -13,6 +13,7 @@
 | :------------- |
 | `pu_or1k_core` |
 | `pu_or1k_cpu`  |
+
 : Implementation - Main
 
 | `Component`               |
@@ -22,6 +23,7 @@
 | `pu_or1k_pcu`             |
 | `pu_or1k_pic`             |
 | `pu_or1k_ticktimer`       |
+
 : Implementation - Control
 
 ### PU OR1K CORE
@@ -34,6 +36,7 @@
 | `pu_or1k_fetch`  |
 | `pu_or1k_icache` |
 | `pu_or1k_immu`   |
+
 : Implementation - Fetch
 
 ### PU OR1K FETCH
@@ -45,6 +48,7 @@
 | `Component`       |
 | :---------------- |
 | `pu_or1k_decode`  |
+
 : Implementation - Decode
 
 ### PU OR1K DECODE
@@ -58,6 +62,7 @@
 | `pu_or1k_wb_mux`       |
 | `pu_or1k_rf`           |
 | `pu_or1k_execute_ctrl` |
+
 : Implementation - Execute
 
 ### PU OR1K EXECUTE-ALU
@@ -72,6 +77,7 @@
 | `pu_or1k_lsu`    |
 | `pu_or1k_dcache` |
 | `pu_or1k_dmmu`   |
+
 : Implementation - Memory
 
 ### PU OR1K LSU
@@ -88,6 +94,7 @@
 | `Component`      |
 | :--------------- |
 | `pu_or1k_pfpu32` |
+
 : Implementation - PFPU32
 
 ### PU OR1K PFPU32
@@ -97,6 +104,7 @@
 | `OPTION_OPERAND_WIDTH` | `Specify the CPU data and address widths` | `32`         | `32, 64, etc`                             |                        |
 | `OPTION_CPU0`          | `Specify the CPU pipeline core`           | `CAPPUCCINO` | `CAPPUCCINO` `ESPRESSO` `PRONTO_ESPRESSO` | `CAPPUCCINO for Linux` |
 | `OPTION_RESET_PC`      | `Specify the program counter upon reset`  | `0x100`      | `n`                                       |                        |
+
 : Basic parameters
 
 | `Parameter`                 | `Description`                                | `Default` | `Values`         | `Usage?`                                       |
@@ -112,6 +120,7 @@
 | `OPTION_ICACHE_SET_WIDTH`   | `Specify the set address width`              | `9`       | `n`              |                                                |
 | `OPTION_ICACHE_WAYS`        | `Specify the number of blocks per set`       | `2`       | `n`              |                                                |
 | `OPTION_ICACHE_LIMIT_WIDTH` | `Specify the maximum address width`          | `32`      | `n`              |                                                |
+
 : Caching parameters
 
 | `Parameter`                  | `Description`                        | `Default` | `Values`         | `Usage?`                  |
@@ -124,6 +133,7 @@
 | `FEATURE_IMMU_HW_TLB_RELOAD` | `Enable hardware TLB reload`         | `NONE`    | `ENABLED` `NONE` | `Linux expects` `NONE`    |
 | `OPTION_IMMU_SET_WIDTH`      | `Specify the set address width`      | `6`       | `n`              |                           |
 | `OPTION_IMMU_WAYS`           | `Specify the number of ways per set` | `1`       | `n`              |                           |
+
 : Memory Management Unit (MMU) parameters
 
 | `Parameter`                       | `Description`                                       | `Default`          | `Values`                                              | `Usage?`          |
@@ -133,6 +143,7 @@
 | `BUS_IF_TYPE`                     | `Specify the bus interface type`                    | `WISHBONE32`       | `WISHBONE32`                                          |                   |
 | `IBUS_WB_TYPE`                    | `Specify the Instruction bus interface type option` | `B3_READ_BURSTING` | `B3_READ_BURSTING` `B3_REGISTERED_FEEDBACK` `CLASSIC` |                   |
 | `DBUS_WB_TYPE`                    | `Specify the Data bus interface type option`        | `CLASSIC`          | `B3_READ_BURSTING` `B3_REGISTERED_FEEDBACK` `CLASSIC` |                   |
+
 : System bus parameters
 
 | `Parameter`                | `Description        `                                                                                  | `Default` | `Values`                        | `Usage?`                |
@@ -153,6 +164,7 @@
 | `FEATURE_MULTICORE`        | `Enable the 'coreid' and 'numcores' SPR registers`                                                     | `NONE`    | `ENABLED` `NONE`                | `Linux SMP`             |
 | `FEATURE_FPU`              | `Enable the FPU, for cappuccino pipeline only`                                                         | `NONE`    | `ENABLED` `NONE`                |                         |
 | `FEATURE_BRANCH_PREDICTOR` | `Select the branch predictor implementation`                                                           | `SIMPLE`  | `SIMPLE` `GSHARE` `SAT_COUNTER` |                         |
+
 : Hardware unit configuration parameters
 
 | `Parameter`        | `Description`                                                               | `Default` | `Values`         | `Usage?` |
@@ -160,6 +172,7 @@
 | `FEATURE_DSX`      | `Enable setting the 'SR[DSX]' flag when raising exceptions in a delay slot` | `ENABLED` | `ENABLED` `NONE` |          |
 | `FEATURE_RANGE`    | `Enable checking and raising range exceptions`                              | `ENABLED` | `ENABLED` `NONE` |          |
 | `FEATURE_OVERFLOW` | `Enable checking and raising overflow exceptions`                           | `ENABLED` | `ENABLED` `NONE` |          |
+
 : Exception handling options
 
 | `Parameter`          | `Description`                                | `Default`    | `Values`                                              | `Usage?` |
@@ -168,6 +181,7 @@
 | `FEATURE_DIVIDER`    | `Specify the divider implementation`         | `SERIAL`     | `SERIAL` `SIMULATION` `NONE`                          |          |
 | `OPTION_SHIFTER`     | `Specify the shifter implementation`         | `BARREL`     | `BARREL` `SERIAL`                                     |          |
 | `FEATURE_CARRY_FLAG` | `Enable checking and setting the carry flag` | `ENABLED`    | `ENABLED` `NONE`                                      |          |
+
 : ALU configuration options
 
 | `Parameter`       | `Description`                                                | `Default` | `Values`         | `Usage?`    |
@@ -190,4 +204,5 @@
 | `FEATURE_CUST6`   | `Enable the 'l.cust*' custom instruction`                    | `NONE`    | `ENABLED` `NONE` |             |
 | `FEATURE_CUST7`   | `Enable the 'l.cust*' custom instruction`                    | `NONE`    | `ENABLED` `NONE` |             |
 | `FEATURE_CUST8`   | `Enable the 'l.cust*' custom instruction`                    | `NONE`    | `ENABLED` `NONE` |             |
+
 : Instruction enabling options
