@@ -624,4 +624,4 @@ Format of a line in the table:
 | `lv.xor rD,rA,rB`      | `The contents of general-purpose register rA are combined with the contents of general-purpose register rB in a bit-wise logical XOR operation`                                                                                                                                                           |
 |                        | `The result is placed into general-purpose register rD.`                                                                                                                                                                                                                                                  |
 
-: OpenRISC - "OpenRISC Base Integer Instruction Set"
+:OpenRISC - "OpenRISC Base Integer Instruction Set"

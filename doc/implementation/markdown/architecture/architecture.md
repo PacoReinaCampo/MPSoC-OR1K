@@ -14,7 +14,7 @@
 | `pu_or1k_core` |
 | `pu_or1k_cpu`  |
 
-: Implementation - Main
+:Implementation - Main
 
 | `Component`               |
 | :------------------------ |
@@ -24,7 +24,7 @@
 | `pu_or1k_pic`             |
 | `pu_or1k_ticktimer`       |
 
-: Implementation - Control
+:Implementation - Control
 
 ### PU OR1K CORE
 ### PU OR1K CPU
@@ -37,7 +37,7 @@
 | `pu_or1k_icache` |
 | `pu_or1k_immu`   |
 
-: Implementation - Fetch
+:Implementation - Fetch
 
 ### PU OR1K FETCH
 ### PU OR1K ICACHE
@@ -49,7 +49,7 @@
 | :---------------- |
 | `pu_or1k_decode`  |
 
-: Implementation - Decode
+:Implementation - Decode
 
 ### PU OR1K DECODE
 ### PU OR1K DECODE-EXECUTE
@@ -63,7 +63,7 @@
 | `pu_or1k_rf`           |
 | `pu_or1k_execute_ctrl` |
 
-: Implementation - Execute
+:Implementation - Execute
 
 ### PU OR1K EXECUTE-ALU
 ### PU OR1K WB-MUX
@@ -78,7 +78,7 @@
 | `pu_or1k_dcache` |
 | `pu_or1k_dmmu`   |
 
-: Implementation - Memory
+:Implementation - Memory
 
 ### PU OR1K LSU
 ### PU OR1K DCACHE
@@ -95,7 +95,7 @@
 | :--------------- |
 | `pu_or1k_pfpu32` |
 
-: Implementation - PFPU32
+:Implementation - PFPU32
 
 ### PU OR1K PFPU32
 
@@ -105,7 +105,7 @@
 | `OPTION_CPU0`          | `Specify the CPU pipeline core`           | `CAPPUCCINO` | `CAPPUCCINO` `ESPRESSO` `PRONTO_ESPRESSO` | `CAPPUCCINO for Linux` |
 | `OPTION_RESET_PC`      | `Specify the program counter upon reset`  | `0x100`      | `n`                                       |                        |
 
-: Basic parameters
+:Basic parameters
 
 | `Parameter`                 | `Description`                                | `Default` | `Values`         | `Usage?`                                       |
 | :-------------------------- | :------------------------------------------- | :-------- | :--------------- | :--------------------------------------------- |
@@ -121,7 +121,7 @@
 | `OPTION_ICACHE_WAYS`        | `Specify the number of blocks per set`       | `2`       | `n`              |                                                |
 | `OPTION_ICACHE_LIMIT_WIDTH` | `Specify the maximum address width`          | `32`      | `n`              |                                                |
 
-: Caching parameters
+:Caching parameters
 
 | `Parameter`                  | `Description`                        | `Default` | `Values`         | `Usage?`                  |
 | :--------------------------- | :----------------------------------- | :-------- | :--------------- | :------------------------ |
@@ -134,7 +134,7 @@
 | `OPTION_IMMU_SET_WIDTH`      | `Specify the set address width`      | `6`       | `n`              |                           |
 | `OPTION_IMMU_WAYS`           | `Specify the number of ways per set` | `1`       | `n`              |                           |
 
-: Memory Management Unit (MMU) parameters
+:Memory Management Unit (MMU) parameters
 
 | `Parameter`                       | `Description`                                       | `Default`          | `Values`                                              | `Usage?`          |
 | :-------------------------------- | :-------------------------------------------------- | :----------------- | :---------------------------------------------------- | :---------------- |
@@ -144,7 +144,7 @@
 | `IBUS_WB_TYPE`                    | `Specify the Instruction bus interface type option` | `B3_READ_BURSTING` | `B3_READ_BURSTING` `B3_REGISTERED_FEEDBACK` `CLASSIC` |                   |
 | `DBUS_WB_TYPE`                    | `Specify the Data bus interface type option`        | `CLASSIC`          | `B3_READ_BURSTING` `B3_REGISTERED_FEEDBACK` `CLASSIC` |                   |
 
-: System bus parameters
+:System bus parameters
 
 | `Parameter`                | `Description        `                                                                                  | `Default` | `Values`                        | `Usage?`                |
 | :------------------------- | :----------------------------------------------------------------------------------------------------- | :-------- | :------------------------------ | :---------------------- |
@@ -165,7 +165,7 @@
 | `FEATURE_FPU`              | `Enable the FPU, for cappuccino pipeline only`                                                         | `NONE`    | `ENABLED` `NONE`                |                         |
 | `FEATURE_BRANCH_PREDICTOR` | `Select the branch predictor implementation`                                                           | `SIMPLE`  | `SIMPLE` `GSHARE` `SAT_COUNTER` |                         |
 
-: Hardware unit configuration parameters
+:Hardware unit configuration parameters
 
 | `Parameter`        | `Description`                                                               | `Default` | `Values`         | `Usage?` |
 | :----------------- | :-------------------------------------------------------------------------- | :-------- | :--------------- | :------- |
@@ -173,7 +173,7 @@
 | `FEATURE_RANGE`    | `Enable checking and raising range exceptions`                              | `ENABLED` | `ENABLED` `NONE` |          |
 | `FEATURE_OVERFLOW` | `Enable checking and raising overflow exceptions`                           | `ENABLED` | `ENABLED` `NONE` |          |
 
-: Exception handling options
+:Exception handling options
 
 | `Parameter`          | `Description`                                | `Default`    | `Values`                                              | `Usage?` |
 | :------------------- | :------------------------------------------- | :----------- | :---------------------------------------------------- | :------- |
@@ -182,7 +182,7 @@
 | `OPTION_SHIFTER`     | `Specify the shifter implementation`         | `BARREL`     | `BARREL` `SERIAL`                                     |          |
 | `FEATURE_CARRY_FLAG` | `Enable checking and setting the carry flag` | `ENABLED`    | `ENABLED` `NONE`                                      |          |
 
-: ALU configuration options
+:ALU configuration options
 
 | `Parameter`       | `Description`                                                | `Default` | `Values`         | `Usage?`    |
 | :---------------- | :----------------------------------------------------------- | :-------- | :--------------- | :---------- |
@@ -205,4 +205,4 @@
 | `FEATURE_CUST7`   | `Enable the 'l.cust*' custom instruction`                    | `NONE`    | `ENABLED` `NONE` |             |
 | `FEATURE_CUST8`   | `Enable the 'l.cust*' custom instruction`                    | `NONE`    | `ENABLED` `NONE` |             |
 
-: Instruction enabling options
+:Instruction enabling options

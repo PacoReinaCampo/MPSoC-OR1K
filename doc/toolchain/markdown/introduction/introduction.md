@@ -74,7 +74,7 @@ cd ..
 | `newlib`   | `https://github.com/openrisc/newlib`       |
 | `uclibc`   | `https://github.com/openrisc/uClibc-or1k`  |
 
-: GNU ToolChain
+:GNU ToolChain
 
 Here is the list of configure option for specify source tree:
 

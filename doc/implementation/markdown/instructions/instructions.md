@@ -308,7 +308,7 @@
 | `OR1K_SPR_NUMCORES_ADDR` | `{5'd0,11'd129}`  |
 | `OR1K_SPR_GPR0_ADDR`     | `{5'd0,11'd1024}` |
 
-: Addresses
+:Addresses
 
 | `Name`                    | `Value`           |
 | :------------------------ | :---------------- |

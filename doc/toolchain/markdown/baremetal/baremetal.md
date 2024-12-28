@@ -33,7 +33,7 @@
 | `or1k32-elf-strings`    |
 | `or1k32-elf-strip`      |
 
-: Baremetal Tools 32-Bit
+:Baremetal Tools 32-Bit
 
 | Tool 64-Bit             |
 |-------------------------|
@@ -68,11 +68,11 @@
 | `or1k64-elf-strings`    |
 | `or1k64-elf-strip`      |
 
-: Baremetal Tools 64-Bit
+:Baremetal Tools 64-Bit
 
 | Tool         |
 |--------------|
 | `or1k32-sim` |
 | `or1k64-sim` |
 
-: Simulation
+:Simulation
