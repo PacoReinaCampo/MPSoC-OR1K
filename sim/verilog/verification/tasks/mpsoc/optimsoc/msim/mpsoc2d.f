@@ -58,7 +58,7 @@
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/interfaces/common/peripheral_dbg_soc_dii_channel.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/interfaces/or1k/peripheral_dbg_soc_mor1kx_trace_exec.sv
 
-../../../../../../../soc/bench/verilog/glip/soc_glip_channel.sv
+../../../../../../../soc/verification/tasks/library/verilog/optimsoc/glip/soc_glip_channel.sv
 
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/blocks/buffer/peripheral_dbg_soc_dii_buffer.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/blocks/buffer/peripheral_dbg_soc_osd_fifo.sv
@@ -169,6 +169,6 @@
 ../../../../../../../soc/rtl/verilog/soc/spram/soc_sram_sp_wb.sv
 ../../../../../../../soc/rtl/verilog/soc/spram/soc_wb2sram.sv
 
-../../../../../../../rtl/verilog/mpsoc/mpsoc2d_or1k.sv
+../../../../../../../rtl/verilog/mpsoc/optimsoc/mpsoc2d_or1k.sv
 
-../../../../../../../bench/verilog/main/mpsoc2d_or1k_testbench.sv
+../../../../../../../verification/tasks/library/verilog/optimsoc/main/mpsoc2d_or1k_testbench.sv
