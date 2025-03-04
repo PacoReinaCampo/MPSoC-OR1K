@@ -44,7 +44,7 @@
 
 export PATH=/opt/or1k-elf-gcc/bin:${PATH}
 
-source ../../../tool/build.sh
+source ../../../../tool/optimsoc/build.sh
 
 make clean
 make
