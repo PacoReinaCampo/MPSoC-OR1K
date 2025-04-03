@@ -44,8 +44,8 @@
 
 +incdir+../../../../../../../soc/pu/rtl/verilog/pkg
 +incdir+../../../../../../../soc/rtl/verilog/soc/bootrom
-+incdir+../../../../../../../soc/bench/cpp/verilator/inc
-+incdir+../../../../../../../soc/bench/cpp/glip
++incdir+../../../../../../../soc/verification/tasks/library/cpp/optimsoc/verilator/inc
++incdir+../../../../../../../soc/verification/tasks/library/cpp/optimsoc/glip
 
 ../../../../../../../soc/peripheral/dma/rtl/verilog/code/pkg/core/peripheral_dma_pkg.sv
 
