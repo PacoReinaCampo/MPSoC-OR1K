@@ -92,9 +92,9 @@
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/dem_uart/peripheral_dbg_soc_osd_dem_uart_wb.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/him/peripheral_dbg_soc_osd_him.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/common/peripheral_dbg_soc_osd_mam.sv
-../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/wishbone/peripheral_dbg_soc_mam_adapter_wb.sv
-../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/wishbone/peripheral_dbg_soc_osd_mam_if_wb.sv
-../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/wishbone/peripheral_dbg_soc_osd_mam_wb.sv
+../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/wb/peripheral_dbg_soc_mam_adapter_wb.sv
+../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/wb/peripheral_dbg_soc_osd_mam_if_wb.sv
+../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/mam/wb/peripheral_dbg_soc_osd_mam_wb.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/scm/peripheral_dbg_soc_osd_scm.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/stm/common/peripheral_dbg_soc_osd_stm.sv
 ../../../../../../../soc/peripheral/dbg/rtl/soc/verilog/code/peripheral/modules/stm/or1k/mor1kx/peripheral_dbg_soc_osd_stm_mor1kx.sv
