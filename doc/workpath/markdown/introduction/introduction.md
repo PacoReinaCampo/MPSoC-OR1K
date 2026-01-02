@@ -2,7 +2,7 @@
 
 type:
 
-```
+```bash
 sudo apt install -y bison
 sudo apt install -y build-essential
 sudo apt install -y flex
@@ -16,7 +16,7 @@ sudo apt install -y zlib1g-dev
 
 type:
 
-```
+```bash
 git clone https://github.com/openrisc/binutils-gdb.git binutils-gdb
 git clone https://github.com/openrisc/or1k-gcc.git gcc
 git clone https://github.com/openrisc/newlib.git newlib
